@@ -18,7 +18,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency "faye"
   s.add_dependency "rake"
-  s.add_dependency "rspec", "~> 2.8.0"
   s.add_dependency "rails", "~> 4.2.5.2"
 
   s.add_development_dependency "sqlite3"
