@@ -5,8 +5,14 @@ require "net/https"
 require "microservices_engine/engine" if defined? Rails
 
 module MicroservicesEngine
+  mattr_reader :config
 
   class << self
+    def configure(&block)
+      self.config ||= Configuration.new
+      block.call self.config
+    end
+
     def data(objectName, *attributes)
       MicroservicesEngine::Connection.data(objectName, *attributes)
     end
