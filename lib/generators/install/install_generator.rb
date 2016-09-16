@@ -15,13 +15,14 @@ class InstallGenerator < Rails::Generators::Base
       inner_portion += "config.endpoint_models << #{obj}\n"
     end
 
-    file_content = "MicroservicesEngine.configure do |config|
-      #{inner_portion}
+    file_content =
+      "MicroservicesEngine.configure do |config|
+        #{inner_portion}
       end"
 
     # Writing the dynamic object loading file
-    create_file "config/initializers/microservices_engine.rb", <<-FILE
-    #{file_content}
+    create_file "config/initializers/microservices_engine.rb",<<-FILE
+      #{file_content}
     FILE
   end
 end
