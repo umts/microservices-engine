@@ -1,5 +1,5 @@
 module MicroservicesEngine
-  class Configuration < ActiveRecord::Base
+  class Configuration
     attr_reader :endpoint_models
 
     def initialize
