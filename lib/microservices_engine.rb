@@ -1,11 +1,10 @@
-require "microservices_engine/engine"
 require "net/http"
 require "net/https"
-
 require "microservices_engine/engine" if defined? Rails
+require "microservices_engine/configuration" if defined? Rails
 
 module MicroservicesEngine
-  mattr_reader :config
+  mattr_accessor :config
 
   class << self
     def configure(&block)
@@ -15,6 +14,11 @@ module MicroservicesEngine
 
     def data(objectName, *attributes)
       MicroservicesEngine::Connection.data(objectName, *attributes)
+    end
+
+    def test_def(n)
+      n ||= 1
+      return "a" * n
     end
 
     def faye_app(options)
