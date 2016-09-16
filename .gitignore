@@ -1,1 +1,2 @@
-*.log
+test/dummy/log/development.log
+test/dummy/tmp/*
