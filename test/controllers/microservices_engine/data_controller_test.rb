@@ -1,7 +1,11 @@
 require 'test_helper'
 
 module MicroservicesEngine
-  class ConnectionTest < ActiveSupport::TestCase
+  class DataControllerTest < ActionController::TestCase
+    setup do
+      @routes = Engine.routes
+    end
+
     # test "the truth" do
     #   assert true
     # end
