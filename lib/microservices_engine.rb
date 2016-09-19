@@ -1,7 +1,6 @@
 require "net/http"
 require "net/https"
 require "microservices_engine/engine" if defined? Rails
-require "microservices_engine/configuration" if defined? Rails
 
 module MicroservicesEngine
 
