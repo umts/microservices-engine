@@ -9,6 +9,5 @@ module MicroservicesEngine
       conn = Connection.where(object: objectName)
       conn ? conn.data(attributes) : {}
     end
-
   end
 end

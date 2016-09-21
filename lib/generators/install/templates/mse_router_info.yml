@@ -1,0 +1,5 @@
+# UMass Transit Microservices Engine
+# Router API Data Endpoint Configuration
+
+service_name: ''       # The name of the microservice
+accessible_models: []  # The models that the service can give info on
