@@ -12,16 +12,5 @@ module MicroservicesEngine
       n ||= 1
       'a' * n
     end
-<<<<<<< HEAD
-=======
-
-    # def faye_app(options)
-    # TO-DO
-    # develop a Faye extension for this engine
-
-    # opts = {mount: "/mse", timeout: 60, extensions: []}.merge(options)
-    # Faye::RackAdapter.new(opts)
-    # end
->>>>>>> master
   end
 end
