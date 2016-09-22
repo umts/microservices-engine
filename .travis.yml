@@ -1,0 +1,11 @@
+language: ruby
+rvm: 2.3.0
+addons:
+  codeclimate:
+    repo_token: TODO
+script: bundle exec rspec
+notifications:
+  email:
+    on_success: never
+    on_failure: change
+    recipients: programmers@admin.umass.edu
