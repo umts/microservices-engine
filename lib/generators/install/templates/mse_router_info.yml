@@ -1,5 +1,22 @@
 # UMass Transit Microservices Engine
 # Router API Data Endpoint Configuration
 
-service_name: ''       # The name of the microservice
-accessible_models: []  # The models that the service can give info on
+# REQUIRED field
+# The name of the microservice
+name: ''
+
+# REQUIRED field
+# The URI for the site hosting the microservice
+# NOTE: Do not attach the /mse to this.
+uri: ''
+
+# OPTIONAL field (can remain as empty array)
+# The models that the service can give info on
+accessible_models: []
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+# Do not edit the below variables unless you know what you're doing
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+
+router_uri: 'http://example.com' # TODO: Add proper router endpoint

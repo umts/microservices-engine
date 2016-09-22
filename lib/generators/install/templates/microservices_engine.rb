@@ -1,22 +1,29 @@
 require 'net/http'
-config_file = '../mse_router_info.yml'
-puts("[MSE] > No router configuration YAML file found") and return if
-  not File.file?(config_file)
+config_file = 'config/mse_router_info.yml'
 
-config_data = YAML.read(config_file)
-router_uri = 'http://example.com/' # TODO: Add the correct router endpoint
-res = Net::HTTP.post_form(router_uri,
-                    'ph_name' => config_data['service_name'],
-                    'ph_models' => config_data['accessible_models'])
+unless File.file?(config_file) # I want to say rubocop dislikes `unless`
+  raise IOError.new('[MSE] > No router configuration YAML file found')
+end
 
-# Placeholders stuff below
-puts res.body # PH
+config_data = YAML.load_file(config_file)
 
-# Probably don't need this if the router will just send data to the endpoint
-# (not in a response, right?). Actually, that'd be way easier if I don't
-# have to handle the response.
-if res.code == 200 and res.message == "OK"
-  # We did it!
+if [config_data['name'], config_data['uri']].any? { |v| v.blank? }
+  raise StandardError.new('[MSE] > Please fill out config/mse_router_info.yml')
+end
+
+res = Net::HTTP.post_form(
+                  URI(config['router_uri']),
+                  {
+                    'ph_name': config_data['name'],
+                    'ph_content': config_data['accessible_models']
+                  }
+                )
+
+if res.code == "200"
+  # TODO
+  # Verify that the contents of the response are what we expect to happen
+
+  puts 'We did it!'
 else
-  # We suck
+  raise StandardError.new("[MSE] > The router API response was invalid")
 end
