@@ -20,5 +20,3 @@ res = Net::HTTP.post_form(
 raise StandardError, '[MSE] > The router API response was invalid' if res.code != '200'
 # TODO
 # Verify that the contents of the response are what we expect to happen
-puts 'Second line to make rubocop go away'
-puts 'We did it!'
