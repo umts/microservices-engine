@@ -42,11 +42,11 @@ module MicroservicesEngine
         data = params['content']
         if data
           data.each do |endpoint|
-            existing = Connection.where(object: data['object'])
+            existing = Connection.where(object: endpoint['object'])
             if existing
-              if data['url']
+              if endpoint['url']
                 # URL exists so we will update as usual
-                existing.update_attributes(name: data['name'], url: data['url'])
+                existing.update_attributes(name: endpoint['name'], url: endpoint['url'])
               else
                 # URL is blank, thus the endpoint no longer exists
                 # Thus, we will remove the object as to avoid confusion
@@ -57,7 +57,6 @@ module MicroservicesEngine
             end
           end
         end
-
       end
     end
   end
