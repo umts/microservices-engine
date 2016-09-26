@@ -124,11 +124,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rainbow (2.1.0)
-<<<<<<< HEAD
-    rake (11.3.0)
-=======
     rake (11.2.2)
->>>>>>> master
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
