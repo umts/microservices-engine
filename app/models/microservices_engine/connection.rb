@@ -1,5 +1,7 @@
 module MicroservicesEngine
   class Connection < ActiveRecord::Base
+    validates :name, :url, :object, presence: true
+
     def data(*attributes)
       # TO-DO
       # Send a request to the endpoint in the Connection object
