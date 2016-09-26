@@ -5,6 +5,7 @@ PATH
       faye
       rails (~> 4.2.5.2)
       rake
+      rspec
 
 GEM
   remote: https://rubygems.org/
