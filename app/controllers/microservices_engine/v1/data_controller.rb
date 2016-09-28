@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_dependency 'microservices_engine/application_controller'
 
 module MicroservicesEngine

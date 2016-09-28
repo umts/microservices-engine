@@ -7,11 +7,6 @@ AllCops:
     - 'vendor/**/*'
   TargetRubyVersion: 2.3
 
-# Apparently a thing in Rubocop for Ruby 2.3+ in prep for Ruby 3
-# This is to disable the warning (that appears in every file)
-Style/FrozenStringLiteralComment:
-  Enabled: false
-
 Metrics/AbcSize:
   Enabled: false
 

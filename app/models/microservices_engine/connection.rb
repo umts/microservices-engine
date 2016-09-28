@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module MicroservicesEngine
   class Connection < ActiveRecord::Base
     validates :name, :url, :object, presence: true

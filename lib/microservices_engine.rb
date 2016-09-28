@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'net/http'
 require 'net/https'
 require 'microservices_engine/engine' if defined? Rails
