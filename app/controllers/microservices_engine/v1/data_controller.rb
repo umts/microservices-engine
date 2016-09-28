@@ -41,7 +41,7 @@ module MicroservicesEngine
         # to ask if the token is valid?
 
         data = params['content']
-        if data
+        if data.present?
           data.each do |endpoint|
             existing = Connection.where(object: endpoint['object'])
             if existing

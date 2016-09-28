@@ -9,7 +9,7 @@ end
 config_data = YAML.load_file(config_file)
 
 if [config_data['name'], config_data['uri']].any?(&:blank?)
-  raise StandardError, '[MSE] > Please fill out config/mse_router_info.yml'
+  raise '[MSE] > Please fill out config/mse_router_info.yml'
 end
 
 res = Net::HTTP.post_form(
@@ -18,6 +18,6 @@ res = Net::HTTP.post_form(
   'ph_content': config_data['accessible_models']
 )
 
-raise StandardError, '[MSE] > The router API response was invalid' if res.code != '200'
+raise '[MSE] > The router API response was invalid' if res.code != '200'
 # TODO
 # Verify that the contents of the response are what we expect to happen
