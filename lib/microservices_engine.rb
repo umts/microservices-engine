@@ -18,7 +18,7 @@ module MicroservicesEngine
       # TODO
       #
       # Implement the logic to verify tokens
-      return token == 'abc'
+      token == 'abc'
     end
 
     def data(objectName, *attributes)
