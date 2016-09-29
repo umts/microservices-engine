@@ -26,19 +26,20 @@ module MicroservicesEngine
         #       }
         #     }
         # }
-        #
-
-        build = params['build']
-        # TO-DO
-        #
-        # Add logic that will store the Build value in the engine
-        # likely using a mattr_accessor
+        #  
 
         token = params['token']
-        # TO-DO
-        #
-        # Add logic to verify token, perhaps send a request to the router
-        # to ask if the token is valid?
+        unless MicroservicesEngine.valid_token?(token)
+          raise SecurityError, '(Stub) Invalid Token'
+        end
+
+        build = params['build']
+        begin
+          MicroservicesEngine.set_build(build)
+        rescue Exception => e
+          # Build received was older than recorded
+          return '[MSE] > ERROR: Invalid Build Number'
+        end
 
         data = params['content']
         if data.present?
