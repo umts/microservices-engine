@@ -7,11 +7,11 @@ module MicroservicesEngine
   mattr_accessor :build
 
   class << self
-    def set_build(build_num) # Operator overloading for attr_accessors where?
-      build_num = build_num.to_i
+    def build=(b)
+      b = b.to_i
 
-      raise 'Received build is older than existing' unless build > build_num
-      build = build_num
+      raise 'Received build is older than existing' unless build > b
+      write_attribute(:build, b)
     end
 
     def valid_token?(token)

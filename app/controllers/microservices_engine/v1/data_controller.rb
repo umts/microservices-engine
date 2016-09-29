@@ -26,7 +26,7 @@ module MicroservicesEngine
         #       }
         #     }
         # }
-        #  
+        #
 
         token = params['token']
         unless MicroservicesEngine.valid_token?(token)
@@ -36,7 +36,7 @@ module MicroservicesEngine
         build = params['build']
         begin
           MicroservicesEngine.set_build(build)
-        rescue Exception => e
+        rescue StandardError => e
           # Build received was older than recorded
           return '[MSE] > ERROR: Invalid Build Number'
         end
