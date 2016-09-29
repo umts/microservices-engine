@@ -4,7 +4,10 @@ require 'net/https'
 require 'microservices_engine/engine' if defined? Rails
 
 module MicroservicesEngine
-  mattr_accessor :build
+  # For potential security issues, this will remain as an attr_accessor
+  # which disallows modification of this from outside the module, so it
+  # will have to go through `build=` to be modified or `build` to be read
+  attr_accessor :build
 
   class << self
     def build=(b)
@@ -12,6 +15,10 @@ module MicroservicesEngine
 
       raise 'Received build is older than existing' unless build > b
       write_attribute(:build, b)
+    end
+
+    def build
+      build
     end
 
     def valid_token?(token)
