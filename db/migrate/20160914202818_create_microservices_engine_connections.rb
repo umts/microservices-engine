@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateMicroservicesEngineConnections < ActiveRecord::Migration
   def change
     create_table :microservices_engine_connections do |t|
