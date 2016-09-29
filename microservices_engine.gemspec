@@ -17,10 +17,9 @@ Gem::Specification.new do |s|
 
   s.test_files = Dir['test/**/*']
 
-  s.add_dependency 'faye'
   s.add_dependency 'rake'
   s.add_dependency 'rspec'
-  s.add_dependency 'rails', '~> 4.2.5.2'
+  s.add_dependency 'rails', '~> 4.2.7.1'
 
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'rubocop'
