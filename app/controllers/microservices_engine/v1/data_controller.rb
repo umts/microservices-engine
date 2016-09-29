@@ -28,24 +28,15 @@ module MicroservicesEngine
         # }
         #
 
-        build = params['build']
-        # TO-DO
-        #
-        # Add logic that will store the Build value in the engine
-        # likely using a mattr_accessor
-
-        token = params['token']
-        # TO-DO
-        #
-        # Add logic to verify token, perhaps send a request to the router
-        # to ask if the token is valid?
+        verify_token(params['token'])
+        verify_build(params['build'])
 
         data = params['content']
         if data.present?
           data.each do |endpoint|
             existing = Connection.where(object: endpoint['object'])
-            if existing
-              if endpoint['url']
+            if existing.present?
+              if endpoint['url'].present?
                 # URL exists so we will update as usual
                 existing.update_attributes(name: endpoint['name'], url: endpoint['url'])
               else
@@ -58,6 +49,18 @@ module MicroservicesEngine
             end
           end
         end
+      end
+
+      private
+
+      def verify_token(token)
+        raise SecurityError, '(Stub) Invalid Token' unless MicroservicesEngine.valid_token?(token)
+      end
+
+      def verify_build(build)
+        MicroservicesEngine.set_build(build)
+      rescue StandardError => e
+        return '[MSE] > ERROR: Invalid Build Number'
       end
     end
   end
