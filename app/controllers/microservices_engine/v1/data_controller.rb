@@ -50,7 +50,7 @@ module MicroservicesEngine
           end
         end
 
-        render json: {'response': 200}, status: :ok
+        render json: { 'response': 200 }, status: :ok
       end
 
       private

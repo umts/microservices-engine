@@ -1,19 +1,11 @@
 # frozen_string_literal: true
+require 'net/http'
+
 module MicroservicesEngine
   class Connection < ActiveRecord::Base
     validates :name, :url, :object, presence: true
 
-    def data(*attributes)
-      # TO-DO
-      # Send a request to the endpoint in the Connection object
-    end
-
-    def self.data(objectName, *attributes)
-      conn = Connection.where(object: objectName)
-      conn ? conn.data(attributes) : {}
-    end
-
-    def get(reqs, attrs)
+    def get(path, params = {})
       # Query the endpoint for with `attrs` with requirements `reqs`
       # The local endpoint will programmatically try to do (Model).attr per attr in attrs
       # And return each of those values
@@ -24,34 +16,22 @@ module MicroservicesEngine
       # the results.
 
       # Example use:
-      # (connection object for FieldTrip).data({active: true, bus: false}, {:id, :cost_estimate})
-      # => queries endpoint
-      # => endpoint finds all FieldTrip objects that are active and have the bus attribute being false
-      # => it then collects the `attrs` and return
+      # (connection object for FieldTrip).get(:trip, [123223, public_trip_stops], {active_only: true})
+      # => queries endpoint: uri/123223/public_trip_stops
+      # => endpoint finds all FieldTrip objects that are active (param flag)
+      # => returns the response if the request was a success
+
+      # Assumption: url is followed by a `/`
+      uri = URI.parse(url + path.join('/'))
+      uri.query = URI.encode_www_form(params)
+
+      res = Net::HTTP.get_response(uri)
+      return res.body if res.is_a?(Net::HTTPSuccess)
     end
 
-    def self.get(options, reqs, attrs = [])
-      # VALID USES
-        # All possible fields present
-        # MicroserviceEngine.get({model: :public_trip_stops, through: :trip}, {id: 130732}, [:active, :id])
-
-        # All optional fields dropped
-        # MicroserviceEngine.get({model: :trip}, {active: true})
-
-      # INVALID USES
-        # No model specified
-        # MicroserviceEngine.get({}, {active: true})
-
-        # Requirements skipped
-        # MicroserviceEngine.get({model: :trip}, [:id])
-
-      model = options.fetch(:model) rescue return {}
-      through = options.fetch(:through, nil)
-
-      conn = Connection.where(object: through || model)
-
-      attrs = attrs + [model] unless through.nil?
-      conn ? conn.get(reqs, attributes) : {}
+    def self.get(resource, path, params = {})
+      conn = Connection.where(object: resource.to_s) # Does :abc match "abc"?
+      conn ? conn.get(path, params) : {}
     end
   end
 end

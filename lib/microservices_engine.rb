@@ -29,7 +29,7 @@ module MicroservicesEngine
     end
 
     def get(options, reqs, attrs = [])
-      MicroservicesEngine::Connection.data(options, reqs, attrs = [])
+      MicroservicesEngine::Connection.data(options, reqs, attrs)
     end
 
     def test_def(n)
