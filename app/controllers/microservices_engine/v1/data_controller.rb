@@ -49,6 +49,8 @@ module MicroservicesEngine
             end
           end
         end
+
+        render json: {'response': 200}, status: :ok
       end
 
       private
