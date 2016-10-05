@@ -31,7 +31,7 @@ module MicroservicesEngine
 
     def self.get(resource, path, params = {})
       conn = Connection.where(object: resource.to_s) # Does :abc match "abc"?
-      conn.get(path, params) if conn
+      conn.get(path, params) if conn.present?
     end
   end
 end
