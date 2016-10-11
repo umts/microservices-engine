@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'test_helper'
+require 'spec_helper'
 
 class MicroservicesEngineTest < ActiveSupport::TestCase
   test 'truth' do

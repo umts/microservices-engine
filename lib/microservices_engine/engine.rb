@@ -7,4 +7,10 @@ module MicroservicesEngine
       g.test_framework :rspec
     end
   end
+
+  Engine.routes.draw do
+    namespace :v1 do
+      resources :data
+    end
+  end
 end

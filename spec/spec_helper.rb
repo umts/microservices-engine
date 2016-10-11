@@ -12,7 +12,9 @@ require 'rails/test_help'
 Minitest.backtrace_filter = Minitest::BacktraceFilter.new
 
 # Load support files
-Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
+# Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
+ENGINE_RAILS_ROOT = File.join(File.dirname(__FILE__), '../')
+Dir[File.join(ENGINE_RAILS_ROOT, "spec/support/**/*.rb")].each { |f| require f }
 
 # Load fixtures from the engine
 if ActiveSupport::TestCase.respond_to?(:fixture_path=)
