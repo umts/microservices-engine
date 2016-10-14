@@ -1,8 +1,9 @@
 # frozen_string_literal: true
-require 'spec_helper'
+#require 'spec_helper'
+require 'rails_helper'
 
 describe MicroservicesEngine::V1::DataController, type: :controller do
-  routes { MicroservicesEngine::Engine.routes }
+  # routes { Engine.routes }
   before(:each) do
     @data = {
       'build': 300,
@@ -23,15 +24,15 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
   end
 
   it 'works' do
-    get :index
+    get :index, { use_route: :microservices_engine }
     expect(response.status).to be(200)
   end
 
-  #describe 'POST #update' do
-  #  it 'renders' do
-  #    post :update, @data
-  #    expect(response.status).to be(200)
-  #  end
-  #end
+  # describe 'POST #update' do
+  #   it 'renders' do
+  #     post :update, @data
+  #     expect(response.status).to be(200)
+  #   end
+  # end
 
 end
