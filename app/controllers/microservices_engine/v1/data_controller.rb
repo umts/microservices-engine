@@ -8,7 +8,7 @@ module MicroservicesEngine
         render json: {'response': 200}, status: :ok
       end
 
-      def update
+      def register
         # TO-DO
         # . . .
 
@@ -42,14 +42,21 @@ module MicroservicesEngine
             if existing.present?
               if endpoint['url'].present?
                 # URL exists so we will update as usual
-                existing.update_attributes(name: endpoint['name'], url: endpoint['url'])
+                existing.update_attributes(
+                  name: endpoint.require(:name),
+                  url: endpoint.require(:url)
+                )
               else
                 # URL is blank, thus the endpoint no longer exists
                 # Thus, we will remove the object as to avoid confusion
                 Connection.destroy(existing)
               end
             else
-              new_connection = Connection.create(data)
+              new_connection = Connection.create(
+                name: endpoint.require(:name),
+                url: endpoint.require(:url),
+                object: endpoint.require(:object)
+              )
             end
           end
         end

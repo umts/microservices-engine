@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 MicroservicesEngine::Engine.routes.draw do
   namespace :v1 do
-    resources :data, only: [:update]
+    match '/data' => 'data#register', :via => :post
   end
 end
