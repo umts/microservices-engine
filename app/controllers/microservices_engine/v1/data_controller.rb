@@ -71,9 +71,8 @@ module MicroservicesEngine
       end
 
       def verify_build(build)
-        MicroservicesEngine.set_build(build)
-      rescue StandardError => e
-        return '[MSE] > ERROR: Invalid Build Number'
+        # The build= method already has verification built-in
+        MicroservicesEngine.build = build
       end
     end
   end
