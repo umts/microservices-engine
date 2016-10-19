@@ -1,6 +1,4 @@
 # frozen_string_literal: true
-#require 'spec_helper'
-#require 'rspec/rails'
 require 'rails_helper'
 
 # PLANNED FOR MOVE TO OTHER FILE
@@ -89,11 +87,6 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
 
       end
 
-
-      # it 'fails with older major' do
-      #   set_relative_build(-1, 0, 0)
-      #   expect { post :register, @data }.to raise_error(RuntimeError)
-      # end
     end
   end
 end

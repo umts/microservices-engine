@@ -4,11 +4,6 @@ require 'net/https'
 require 'microservices_engine/engine' if defined? Rails
 
 module MicroservicesEngine
-  # For potential security issues, this will remain as an attr_accessor
-  # which disallows modification of this from outside the module, so it
-  # will have to go through `build=` to be modified or `build` to be read
-
-
   class << self
     def build=(b)
       if Rails.env.test? && b == '1.1.1'
