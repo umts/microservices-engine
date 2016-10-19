@@ -4,6 +4,7 @@ PATH
     microservices_engine (0.0.1)
       rails (~> 4.2.7.1)
       rake
+      rspec
       rspec-rails
 
 GEM
@@ -100,6 +101,10 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rainbow (2.1.0)
     rake (11.3.0)
+    rspec (3.4.0)
+      rspec-core (~> 3.4.0)
+      rspec-expectations (~> 3.4.0)
+      rspec-mocks (~> 3.4.0)
     rspec-core (3.4.4)
       rspec-support (~> 3.4.0)
     rspec-expectations (3.4.0)
@@ -148,6 +153,7 @@ PLATFORMS
 
 DEPENDENCIES
   microservices_engine!
+  rspec
   rspec-rails
   rubocop
   simplecov
