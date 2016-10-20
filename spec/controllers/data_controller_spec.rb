@@ -2,8 +2,8 @@
 require 'rails_helper'
 
 # PLANNED FOR MOVE TO OTHER FILE
-def change_build(v)
-  @data['build'] = v
+def change_build(v, b)
+  b['build'] = v
 end
 
 def relative_build(ma, mi, r)
@@ -63,11 +63,11 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
     describe 'updating MicroservicesEngine.build' do
       context 'failing builds' do
         failing_builds = [0, -1].repeated_permutation(3).to_a.map { |bld| relative_build(*bld) }
-        failing_builds -= [0, 0, 0] # this is a result of above but is a valid build
+        failing_builds -= ['1.1.1'] # this is a result of above but is a valid build
 
         failing_builds.each do |failing_build|
           it 'fails with older version #{failing_build}' do
-            change_build(failing_build)
+            change_build(failing_build, @data)
             expect { post :register, @data }.to raise_error(RuntimeError)
           end
         end
@@ -78,7 +78,7 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
 
         passing_builds.each do |passing_build|
           it 'passes with newer version #{passing_build}' do
-            change_build(passing_build)
+            change_build(passing_build, @data)
             expect(MicroservicesEngine.build).to eq('1.1.1')
             post :register, @data
             expect(MicroservicesEngine.build).to eq(passing_build)

@@ -27,11 +27,13 @@ module MicroservicesEngine
       # 1.2.3 -> 1.1.2 #
       # 1.2.3 -> 0.2.3 #
       # 1.2.3 -> 0.1.2 #
-      if [
+      invalid_changes = [
         cmajor > major,
         cminor > minor && cmajor <= major,
-        crev > rev && cminor <= minor && crev <= rev
-      ].any?
+        crev > rev && cminor <= minor && cmajor <= major
+      ]
+
+      if invalid_changes.any?
         raise 'Received version is older than existing. Now: #{build}. Given: #{b}'
       end
 
