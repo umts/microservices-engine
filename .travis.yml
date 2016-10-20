@@ -3,7 +3,10 @@ rvm: 2.3.0
 addons:
   codeclimate:
     repo_token: 22840649ef0d6a85c80f7276acbb377b5baee4938f1d15741f34627245c84c92
-script: bundle exec rspec
+script:
+  - RAILS_ENV=test bundle exec rake db:migrate --trace
+  - bundle exec rake db:test:prepare
+  - bundle exec rspec spec/
 notifications:
   email:
     on_success: never
