@@ -5,7 +5,7 @@ module MicroservicesEngine
   module V1
     class DataController < ApplicationController
       def index
-        render json: {'response': 200}, status: :ok
+        render json: { 'response': 200 }, status: :ok
       end
 
       def register

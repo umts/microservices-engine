@@ -6,9 +6,7 @@ require 'microservices_engine/engine' if defined? Rails
 module MicroservicesEngine
   class << self
     def build=(b)
-      if Rails.env.test? && b == '1.1.1'
-        @build = b
-      end
+      @build = b if Rails.env.test? && b == '1.1.1'
 
       # -- Semantic Versioning -- #
       # - All version INCREASES are VALID
@@ -20,18 +18,20 @@ module MicroservicesEngine
 
       major, minor, rev = b.split('.').map(&:to_i)
       cmajor, cminor, crev = build.split('.').map(&:to_i)
-      invalid_changes =
-        [                                     # -- Examples -- #
-          cmajor > major,                     # 2.3.2 -> 1.3.2 #
-          cminor > minor && cmajor <= major,  # 1.2.3 -> 1.1.3 #
-                                              # 1.2.3 -> 0.2.3 #
-          crev > rev && cminor <= minor &&    # 1.2.3 -> 1.2.2 #
-            crev <= rev                       # 1.2.3 -> 1.1.2 #
-                                              # 1.2.3 -> 0.2.3 #
-                                              # 1.2.3 -> 0.1.2 #
-        ]
 
-      if invalid_changes.any?
+      # -- Examples -- #
+      # 2.3.2 -> 1.3.2 #
+      # 1.2.3 -> 1.1.3 #
+      # 1.2.3 -> 0.2.3 #
+      # 1.2.3 -> 1.2.2 #
+      # 1.2.3 -> 1.1.2 #
+      # 1.2.3 -> 0.2.3 #
+      # 1.2.3 -> 0.1.2 #
+      if [
+        cmajor > major,
+        cminor > minor && cmajor <= major,
+        crev > rev && cminor <= minor && crev <= rev
+      ].any?
         raise 'Received version is older than existing. Now: #{build}. Given: #{b}'
       end
 
