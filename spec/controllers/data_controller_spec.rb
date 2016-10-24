@@ -35,9 +35,10 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
         }
       ]
     }
+    @changed_data = @data.deep_dup # A version of data that is changed for tests
   end
 
-  describe 'POST #update' do
+  describe 'POST #register' do
     it 'responds' do
       post :register, @data
       expect(response.status).to be(200)
@@ -55,11 +56,12 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
         # 1. Change base data to be an invalid token
         # 2. Expect the request to cause an error.
 
-        @data['token'] = 'mayonaise_is_not_an_instrument_patrick'
-        expect { post :register, @data }.to raise_error(SecurityError)
+        @changed_data['token'] = 'mayonaise_is_not_an_instrument_patrick'
+        expect { post :register, @changed_data }.to raise_error(SecurityError)
       end
     end
 
+    # The request updates the build version properly
     describe 'updating MicroservicesEngine.build' do
       context 'failing builds' do
         failing_builds = [0, -1].repeated_permutation(3).to_a.map { |bld| relative_build(*bld) }
@@ -67,8 +69,8 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
 
         failing_builds.each do |failing_build|
           it 'fails with older version #{failing_build}' do
-            change_build(failing_build, @data)
-            expect { post :register, @data }.to raise_error(RuntimeError)
+            change_build(failing_build, @changed_data)
+            expect { post :register, @changed_data }.to raise_error(RuntimeError)
           end
         end
       end
@@ -78,13 +80,83 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
 
         passing_builds.each do |passing_build|
           it 'passes with newer version #{passing_build}' do
-            change_build(passing_build, @data)
+            change_build(passing_build, @changed_data)
             expect(MicroservicesEngine.build).to eq('1.1.1')
-            post :register, @data
+            post :register, @changed_data
             expect(MicroservicesEngine.build).to eq(passing_build)
           end
         end
       end
     end
+
+    # The request generates, modifies, and removes Connection
+    # objects as expected
+    describe 'resulting Connection models' do
+      before(:each) do
+        @extract = lambda { |d, key| d[:content].collect{ |c| c[key.to_sym] } }
+        @connection = MicroservicesEngine::Connection
+      end
+
+      context 'before the request' do
+        it 'has no objects' do
+          expect(@connection.count).to be(0)
+        end
+      end
+
+      describe 'new' do
+        before(:each) do
+          post :register, @data
+        end
+
+        it 'generates the models' do
+          expect(@connection.count).to be(2)
+        end
+
+        it 'generated the names' do
+          expect(@connection.all.map(&:name)).to eq(@extract.call(@data, :name))
+        end
+
+        it 'generated the urls' do
+          expect(@connection.all.map(&:url)).to eq(@extract.call(@data, :url))
+        end
+
+        it 'generated the objects' do
+          expect(@connection.all.map(&:object)).to eq(@extract.call(@data, :object))
+        end
+
+        # TODO
+        it 'generates new model when object changes'
+      end
+
+      describe 'editing' do
+        before(:each) do
+          post :register, @data
+        end
+
+        it 'updates the name' do
+          @changed_data[:content][0][:name] = 'Potatoes'
+          expect{post :register, @changed_data}
+            .to change{@connection.all.map(&:name)}
+            .from(@extract.call(@data, :name))
+            .to(@extract.call(@changed_data, :name))
+        end
+
+        it 'updates the url' do
+          @changed_data[:content][0][:url] = 'pota://toe.s/'
+          expect{post :register, @changed_data}
+            .to change{@connection.all.map(&:url)}
+            .from(@extract.call(@data, :url))
+            .to(@extract.call(@changed_data, :url))
+        end
+
+        # Changing the `object` link will not modify an
+        # existing object. It will create a new one.
+      end
+
+      # TODO
+      # (setting url to '')
+      describe 'removing'
+    end
+
   end
 end

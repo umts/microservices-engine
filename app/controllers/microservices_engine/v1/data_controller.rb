@@ -4,10 +4,6 @@ require_dependency 'microservices_engine/application_controller'
 module MicroservicesEngine
   module V1
     class DataController < ApplicationController
-      def index
-        render json: { 'response': 200 }, status: :ok
-      end
-
       def register
         # TO-DO
         # . . .
@@ -15,7 +11,7 @@ module MicroservicesEngine
         # Current assumption of example request format
         #
         # {
-        #     'build': 374,
+        #     'build': 1.0.0,
         #     'token': 'a72!j*^bQ34dE%SS$#haBd%67#cD',
         #     'content': {
         #       {
@@ -38,7 +34,7 @@ module MicroservicesEngine
         data = params['content']
         if data.present?
           data.each do |endpoint|
-            existing = Connection.where(object: endpoint['object'])
+            existing = Connection.where(object: endpoint['object']).first
             if existing.present?
               if endpoint['url'].present?
                 # URL exists so we will update as usual
