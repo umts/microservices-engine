@@ -45,9 +45,9 @@ module MicroservicesEngine
               else
                 # URL is blank, thus the endpoint no longer exists
                 # Thus, we will remove the object as to avoid confusion
-                Connection.destroy(existing)
+                Connection.destroy(existing.id)
               end
-            else
+            elsif endpoint['url'].present?
               new_connection = Connection.create(
                 name: endpoint.require(:name),
                 url: endpoint.require(:url),
