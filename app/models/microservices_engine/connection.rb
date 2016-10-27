@@ -6,11 +6,9 @@ module MicroservicesEngine
     validates :name, :url, :object, presence: true
 
     def self.get(resource, path, params = {})
-      conn = Connection.where(object: resource.to_s) # Does :abc match "abc"?
+      conn = Connection.find_by(object: resource.to_s) # Does :abc match "abc"?
       conn.get(path, params) if conn.present?
     end
-
-    private
 
     def get(path, params = {})
       # Example use:
