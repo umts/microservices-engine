@@ -56,7 +56,7 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
         # 1. Change base data to be an invalid token
         # 2. Expect the request to cause an error.
 
-        @changed_data['token'] = 'mayonaise_is_not_an_instrument_patrick'
+        @changed_data['token'] = 'mayonnaise_is_not_an_instrument_patrick'
         expect { post :register, @changed_data }.to raise_error(SecurityError)
       end
     end
@@ -124,14 +124,6 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
           expect(@connection.all.map(&:object)).to eq(@extract.call(@data, :object))
         end
 
-        # TODO
-        it 'generates new model when object changes' do
-          @changed_data[:content][0][:object] = 'SomeOtherObject'
-          expect { post :register, @changed_data }
-            .to change { @connection.count }
-            .by(1)
-        end
-
         it 'adds model when new data appears' do
           new_data = {
             'name': 'Endpoint 2',
@@ -143,18 +135,6 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
           expect { post :register, @changed_data }
             .to change { @connection.count }
             .by(1)
-        end
-
-        it 'ignores generation with empty url' do
-          new_data = {
-            'name': 'Endpoint 2',
-            'object': 'Potatoes',
-            'url': ''
-          }
-          @changed_data[:content].append(new_data)
-
-          expect { post :register, @changed_data }
-            .not_to change { @connection.count }
         end
       end
 
@@ -179,19 +159,20 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
             .to(@extract.call(@changed_data, :url))
         end
 
-        # Changing the `object` link will not modify an
-        # existing object. It will create a new one.
+        it 'swaps information to other model' do
+          @changed_data[:content][0][:object] = 'SomeOtherObject'
+          expect { post :register, @changed_data }
+            .not_to change { @connection.count }
+        end
       end
 
-      # TODO
-      # (setting url to '')
       describe 'removing' do
         before(:each) do
           post :register, @data
         end
 
         it 'removes the model' do
-          @changed_data[:content][0][:url] = ''
+          @changed_data[:content].delete_at(0)
           expect { post :register, @changed_data }
             .to change { @connection.count }
             .by(-1)

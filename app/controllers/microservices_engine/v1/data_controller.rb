@@ -28,35 +28,37 @@ module MicroservicesEngine
         # }
         #
 
+        data = params['content']
+        data_objects = data.map { |d| d['object'] }
+
         verify_token(params['token'])
         verify_build(params['build'])
 
-        data = params['content']
-        if data.present?
-          data.each do |endpoint|
-            existing = Connection.where(object: endpoint['object']).first
-            if existing.present?
-              if endpoint['url'].present?
-                # URL exists so we will update as usual
-                existing.update_attributes(
-                  name: endpoint.require(:name),
-                  url: endpoint.require(:url)
-                )
-              else
-                # URL is blank, thus the endpoint no longer exists
-                # Thus, we will remove the object as to avoid confusion
-                Connection.destroy(existing.id)
-              end
-            elsif endpoint['url'].present?
-              new_connection = Connection.create(
-                name: endpoint.require(:name),
-                url: endpoint.require(:url),
-                object: endpoint.require(:object)
-              )
-            end
-          end
+        existing = Connection.all
+        in_request = existing.dup.to_a.keep_if { |c| data_objects.include? c.object }
+        not_in_request = existing - in_request
+
+        # Remove all objects not included in the request
+        not_in_request.each do |unwanted|
+          Connection.destroy(unwanted.id)
         end
 
+        # 'Find and update' or 'Create' all remaining models
+        data.each do |endpoint|
+          desired = Connection.find_by object: endpoint['object']
+          if desired.present?
+            desired.update_attributes(
+              name: endpoint.require(:name),
+              url: endpoint.require(:url)
+            )
+          else
+            Connection.create(
+              name: endpoint.require(:name),
+              url: endpoint.require(:url),
+              object: endpoint.require(:object)
+            )
+          end
+        end
         render json: { 'response': 200 }, status: :ok
       end
 

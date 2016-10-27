@@ -53,8 +53,8 @@ module MicroservicesEngine
       token == 'abc'
     end
 
-    def get(options, reqs, attrs = [])
-      MicroservicesEngine::Connection.data(options, reqs, attrs)
+    def get(resource, path, params = {})
+      MicroservicesEngine::Connection.get(resource, path, params)
     end
 
     def test_def(n)
