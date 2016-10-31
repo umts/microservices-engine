@@ -7,13 +7,12 @@ name: ''
 
 # REQUIRED field
 # The URI for the site hosting the microservice
-# NOTE: Do not attach the /mse to this.
+# NOTE: Do not attach the /v1/data to this.
 uri: ''
 
 # OPTIONAL field (can remain as empty array)
 # The models that the service can give info on
 accessible_models: []
-
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # Do not edit the below variables unless you know what you're doing

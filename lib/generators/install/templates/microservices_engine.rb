@@ -2,7 +2,7 @@
 require 'net/http'
 config_file = 'config/mse_router_info.yml'
 
-unless File.file?(config_file) # I want to say rubocop dislikes `unless`
+unless File.file?(config_file)
   raise IOError, '[MSE] > No router configuration YAML file found'
 end
 

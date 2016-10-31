@@ -12,7 +12,7 @@ module MicroservicesEngine
 
     def get(path, params = {})
       # Example use:
-      # (connection object for FieldTrip).get(:trip, [123223, public_trip_stops], {active_only: true})
+      # (connection object for FieldTrip).get([123223, public_trip_stops], {active_only: true})
       # => queries endpoint: uri/123223/public_trip_stops
       # => endpoint finds all FieldTrip objects that are active (param flag)
       # => returns the response if the request was a success
