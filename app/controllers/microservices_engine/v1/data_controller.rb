@@ -4,14 +4,14 @@ require_dependency 'microservices_engine/application_controller'
 module MicroservicesEngine
   module V1
     class DataController < ApplicationController
-      def update
+      def register
         # TO-DO
         # . . .
 
         # Current assumption of example request format
         #
         # {
-        #     'build': 374,
+        #     'build': 1.0.0,
         #     'token': 'a72!j*^bQ34dE%SS$#haBd%67#cD',
         #     'content': {
         #       {
@@ -28,28 +28,37 @@ module MicroservicesEngine
         # }
         #
 
+        data = params['content']
+        data_objects = data.map { |d| d['object'] }
+
         verify_token(params['token'])
         verify_build(params['build'])
 
-        data = params['content']
-        if data.present?
-          data.each do |endpoint|
-            existing = Connection.where(object: endpoint['object'])
-            if existing.present?
-              if endpoint['url'].present?
-                # URL exists so we will update as usual
-                existing.update_attributes(name: endpoint['name'], url: endpoint['url'])
-              else
-                # URL is blank, thus the endpoint no longer exists
-                # Thus, we will remove the object as to avoid confusion
-                Connection.destroy(existing)
-              end
-            else
-              new_connection = Connection.create(data)
-            end
-          end
+        existing = Connection.all
+        in_request = existing.dup.to_a.keep_if { |c| data_objects.include? c.object }
+        not_in_request = existing - in_request
+
+        # Remove all objects not included in the request
+        not_in_request.each do |unwanted|
+          Connection.destroy(unwanted.id)
         end
 
+        # 'Find and update' or 'Create' all remaining models
+        data.each do |endpoint|
+          desired = Connection.find_by object: endpoint['object']
+          if desired.present?
+            desired.update_attributes(
+              name: endpoint.require(:name),
+              url: endpoint.require(:url)
+            )
+          else
+            Connection.create(
+              name: endpoint.require(:name),
+              url: endpoint.require(:url),
+              object: endpoint.require(:object)
+            )
+          end
+        end
         render json: { 'response': 200 }, status: :ok
       end
 
@@ -60,9 +69,8 @@ module MicroservicesEngine
       end
 
       def verify_build(build)
-        MicroservicesEngine.set_build(build)
-      rescue StandardError => e
-        return '[MSE] > ERROR: Invalid Build Number'
+        # The build= method already has verification built-in
+        MicroservicesEngine.build = build
       end
     end
   end

@@ -4,32 +4,57 @@ require 'net/https'
 require 'microservices_engine/engine' if defined? Rails
 
 module MicroservicesEngine
-  # For potential security issues, this will remain as an attr_accessor
-  # which disallows modification of this from outside the module, so it
-  # will have to go through `build=` to be modified or `build` to be read
-  attr_accessor :build
-
   class << self
     def build=(b)
-      b = b.to_i
+      @build = b if Rails.env.test? && b == '1.1.1'
 
-      raise 'Received build is older than existing' unless build > b
-      write_attribute(:build, b)
+      # -- Semantic Versioning -- #
+      # - All version INCREASES are VALID
+      # - Version DECREASES are INVALID IF AND ONLY IF none of the more important
+      #   version numbers increase.
+      #   ~ That is to say, a major decrease is never valid.
+      #   ~ A minor decrease is only valid when the major version increases.
+      #   ~ A revision decrease is only valid when either the major or minor version increases.
+
+      major, minor, rev = b.split('.').map(&:to_i)
+      cmajor, cminor, crev = build.split('.').map(&:to_i)
+
+      # -- Examples -- #
+      # 2.3.2 -> 1.3.2 #
+      # 1.2.3 -> 1.1.3 #
+      # 1.2.3 -> 0.2.3 #
+      # 1.2.3 -> 1.2.2 #
+      # 1.2.3 -> 1.1.2 #
+      # 1.2.3 -> 0.2.3 #
+      # 1.2.3 -> 0.1.2 #
+      invalid_changes = [
+        cmajor > major,
+        cminor > minor && cmajor <= major,
+        crev > rev && cminor <= minor && cmajor <= major
+      ]
+
+      if invalid_changes.any?
+        raise 'Received version is older than existing. Now: #{build}. Given: #{b}'
+      end
+
+      @build = b
     end
 
     def build
-      build
+      @build ||= '1.1.1'
     end
 
     def valid_token?(token)
       # TODO
       #
       # Implement the logic to verify tokens
+      return token == 'TEST_ENV_VALID_TOKEN' if Rails.env.test?
+
       token == 'abc'
     end
 
-    def get(options, reqs, attrs = [])
-      MicroservicesEngine::Connection.data(options, reqs, attrs)
+    def get(resource, path, params = {})
+      MicroservicesEngine::Connection.get(resource, path, params)
     end
 
     def test_def(n)

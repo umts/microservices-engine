@@ -15,12 +15,15 @@ Gem::Specification.new do |s|
   s.files = Dir['{app,config,db,lib}/**/*', 'LICENSE', 'Rakefile', 'README.rdoc']
   s.require_path = 'lib'
 
-  s.test_files = Dir['test/**/*']
+  s.test_files = Dir['spec/**/*']
 
   s.add_dependency 'rake'
+  s.add_dependency 'rspec-rails'
   s.add_dependency 'rspec'
   s.add_dependency 'rails', '~> 4.2.7.1'
 
+  s.add_development_dependency 'rspec-rails'
+  s.add_development_dependency 'webmock'
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'rubocop'
   s.add_development_dependency 'simplecov'
