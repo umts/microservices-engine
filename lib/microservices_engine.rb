@@ -5,7 +5,6 @@ require 'microservices_engine/engine' if defined? Rails
 
 module MicroservicesEngine
   class << self
-
     # Setter method for the `build` portion of the engine, includes various validations
     def build=(b)
       @build = b if Rails.env.test? && b == '1.1.1'

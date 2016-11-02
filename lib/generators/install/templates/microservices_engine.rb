@@ -21,7 +21,7 @@ uri += '/' if uri[-1] != '/'
 res = Net::HTTP.post_form(
   URI(router_uri),
   'name': config_data['name'],
-  'url': uri
+  'url': uri,
   'models': config_data['accessible_models'],
   'security_token': config_data['security_token']
 )
