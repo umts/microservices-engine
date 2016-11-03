@@ -46,15 +46,13 @@ module MicroservicesEngine
       @build ||= '0.0.0'
     end
 
-    # Returns the engine's YML configuration, alias for `reload_config`
-    def config
-      reload_config
-    end
-
     # Reloads and returns the engine's current YML configuration
     def reload_config
       @config = YAML.load_file('config/mse_router_info.yml')
     end
+
+    # Returns the engine's YML configuration, alias for `reload_config`
+    alias config reload_config
 
     # Takes in a token and verifies against the engine's YML configuration files
     # Params:
