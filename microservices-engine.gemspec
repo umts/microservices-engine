@@ -2,10 +2,10 @@ $LOAD_PATH.push File.expand_path('../lib', __FILE__)
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = 'microservices_engine'
+  s.name        = 'microservices-engine'
   s.version     = '0.0.1'
-  s.authors     = ['Dylan Bowers']
-  s.email       = ['djbowers@umass.edu']
+  s.authors     = ['UMass Transportation Services']
+  s.email       = ['transit-it@admin.umass.edu']
   s.homepage    = 'https://github.com/umts/microservices-engine'
   s.summary     = 'Simple UMTS inter-service communication network'
   s.description = s.summary
