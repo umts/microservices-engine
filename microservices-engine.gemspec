@@ -4,12 +4,11 @@ $LOAD_PATH.push File.expand_path('../lib', __FILE__)
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = 'umts-microservices-engine'
-  s.version     = '0.0.2'
+  s.version     = '0.0.3'
   s.authors     = ['UMass Transportation Services']
   s.email       = ['transit-it@admin.umass.edu']
   s.homepage    = 'https://github.com/umts/microservices-engine'
   s.summary     = 'Simple UMTS inter-service communication network'
-  s.description = s.summary
   s.license     = 'MIT'
 
   s.files = Dir['{app,config,db,lib}/**/*', 'LICENSE', 'Rakefile', 'README.rdoc']
@@ -17,15 +16,12 @@ Gem::Specification.new do |s|
 
   s.test_files = Dir['spec/**/*']
 
-  s.add_dependency 'rake'
-  s.add_dependency 'rspec-rails'
-  s.add_dependency 'rspec'
-  s.add_dependency 'rails', '~> 4.2.7.1'
+  s.add_dependency 'rails', '~> 5.0'
 
-  s.add_development_dependency 'rspec-rails'
-  s.add_development_dependency 'webmock'
-  s.add_development_dependency 'rspec'
-  s.add_development_dependency 'rubocop'
-  s.add_development_dependency 'simplecov'
-  s.add_development_dependency 'sqlite3'
+  s.add_development_dependency 'rspec-rails', '~> 3.5'
+  s.add_development_dependency 'webmock', '~> 2.1'
+  s.add_development_dependency 'rspec', '~> 3.5'
+  s.add_development_dependency 'rubocop', '~> 0.45'
+  s.add_development_dependency 'simplecov', '~> 0.12'
+  s.add_development_dependency 'sqlite3', '~> 1.3'
 end
