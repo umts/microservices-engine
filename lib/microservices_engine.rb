@@ -1,24 +1,74 @@
+# frozen_string_literal: true
 require 'net/http'
 require 'net/https'
 require 'microservices_engine/engine' if defined? Rails
 
 module MicroservicesEngine
   class << self
-    def data(objectName, *attributes)
-      MicroservicesEngine::Connection.data(objectName, *attributes)
+    # Setter method for the `build` portion of the engine, includes various validations
+    def build=(b)
+      @build = b if Rails.env.test? && b == '1.1.1'
+
+      # ---------------- Semantic Versioning ---------------- #
+      # 1. All version INCREASES are VALID                    #
+      # 2. Version DECREASES are INVALID IF AND ONLY IF none  #
+      #    of the more importantversion numbers increase.     #
+      # 3. That is to say...                                  #
+      #    a. A major decrease is never valid                 #
+      #    b. A minor decrease is only valid when the major   #
+      #       version increases.                              #
+      #    c. A revision decrease is only valid when either   #
+      #       the major or minor version increases.           #
+      # ----------------------------------------------------- #
+
+      major, minor, rev = b.split('.').map(&:to_i)
+      cmajor, cminor, crev = build.split('.').map(&:to_i)
+
+      # ---------------------- Examples ---------------------- #
+      # 2.3.2 -> 1.3.2      1.2.3 -> 1.1.3      1.2.3 -> 0.2.3 #
+      # 1.2.3 -> 1.2.2      1.2.3 -> 1.1.2      1.2.3 -> 0.2.3 #
+      # ------------------------------------------------------ #
+      invalid_changes = [
+        cmajor > major,
+        cminor > minor && cmajor <= major,
+        crev > rev && cminor <= minor && cmajor <= major
+      ]
+
+      if invalid_changes.any?
+        raise 'Received version is older than existing. Now: #{build}. Given: #{b}'
+      end
+
+      @build = b
     end
 
-    def test_def(n)
-      n ||= 1
-      'a' * n
+    # Returns the engine's current build
+    def build
+      @build ||= '0.0.0'
     end
 
-    # def faye_app(options)
-    # TO-DO
-    # develop a Faye extension for this engine
+    # Reloads and returns the engine's current YML configuration
+    def reload_config
+      @config = YAML.load_file('config/mse_router_info.yml')
+    end
 
-    # opts = {mount: "/mse", timeout: 60, extensions: []}.merge(options)
-    # Faye::RackAdapter.new(opts)
-    # end
+    # Returns the engine's YML configuration, alias for `reload_config`
+    alias config reload_config
+
+    # Takes in a token and verifies against the engine's YML configuration files
+    # Params:
+    # +token+:: The token to test validity of
+    def valid_token?(token)
+      return token == 'TEST_ENV_VALID_TOKEN' if Rails.env.test?
+
+      valid_token = config['security_token']
+      raise 'Security token is not set! Please set it as soon as possible!' if valid_token.blank?
+
+      token == valid_token
+    end
+
+    # Redirects an engine `get` call to the appropriate resource
+    def get(resource, path, params = {})
+      MicroservicesEngine::Connection.get(resource, path, params)
+    end
   end
 end

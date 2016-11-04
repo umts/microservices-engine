@@ -1,9 +1,10 @@
-require 'test_helper'
-require 'generators/microservices_engine/microservices_engine_generator'
+# frozen_string_literal: true
+require 'spec_helper'
+require 'generators/install/install_generator'
 
 module MicroservicesEngine
-  class MicroservicesEngineGeneratorTest < Rails::Generators::TestCase
-    tests MicroservicesEngineGenerator
+  class InstallGeneratorTest < Rails::Generators::TestCase
+    tests InstallGenerator
     destination Rails.root.join('tmp/generators')
     setup :prepare_destination
 
