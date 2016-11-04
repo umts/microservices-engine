@@ -1,4 +1,4 @@
-class CreateFieldTrips < ActiveRecord::Migration
+class CreateFieldTrips < ActiveRecord::Migration[5.0]
   def change
     create_table :field_trips do |t|
       t.string :name

@@ -40,7 +40,7 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
 
   describe 'POST #register' do
     it 'responds' do
-      post :register, @data
+      process :register, method: :post, params: @data
       expect(response.status).to be(200)
     end
 
@@ -49,7 +49,7 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
       it 'accepts valid token' do
         # 1. Expect submitting the data to not cause any issues
 
-        expect { post :register, @data }.not_to raise_error
+        expect { process :register, method: :post, params: @data }.not_to raise_error
       end
 
       it 'denies invalid token' do
@@ -57,7 +57,7 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
         # 2. Expect the request to cause an error.
 
         @changed_data['token'] = 'mayonnaise_is_not_an_instrument_patrick'
-        expect { post :register, @changed_data }.to raise_error(SecurityError)
+        expect { process :register, method: :post, params: @changed_data }.to raise_error(SecurityError)
       end
     end
 
@@ -70,7 +70,7 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
         failing_builds.each do |failing_build|
           it 'fails with older version #{failing_build}' do
             change_build(failing_build, @changed_data)
-            expect { post :register, @changed_data }.to raise_error(RuntimeError)
+            expect { process :register, method: :post, params: @changed_data }.to raise_error(RuntimeError)
           end
         end
       end
@@ -82,7 +82,7 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
           it 'passes with newer version #{passing_build}' do
             change_build(passing_build, @changed_data)
             expect(MicroservicesEngine.build).to eq('1.1.1')
-            post :register, @changed_data
+            process :register, method: :post, params: @changed_data
             expect(MicroservicesEngine.build).to eq(passing_build)
           end
         end
@@ -105,7 +105,7 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
 
       describe 'new' do
         before(:each) do
-          post :register, @data
+          process :register, method: :post, params: @data
         end
 
         it 'generates the models' do
@@ -132,7 +132,7 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
           }
           @changed_data[:content].append(new_data)
 
-          expect { post :register, @changed_data }
+          expect { process :register, method: :post, params: @changed_data }
             .to change { @connection.count }
             .by(1)
         end
@@ -140,12 +140,12 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
 
       describe 'editing' do
         before(:each) do
-          post :register, @data
+          process :register, method: :post, params: @data
         end
 
         it 'updates the name' do
           @changed_data[:content][0][:name] = 'Potatoes'
-          expect { post :register, @changed_data }
+          expect { process :register, method: :post, params: @changed_data }
             .to change { @connection.all.map(&:name) }
             .from(@extract.call(@data, :name))
             .to(@extract.call(@changed_data, :name))
@@ -153,7 +153,7 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
 
         it 'updates the url' do
           @changed_data[:content][0][:url] = 'pota://toe.s/'
-          expect { post :register, @changed_data }
+          expect { process :register, method: :post, params: @changed_data }
             .to change { @connection.all.map(&:url) }
             .from(@extract.call(@data, :url))
             .to(@extract.call(@changed_data, :url))
@@ -161,19 +161,19 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
 
         it 'swaps information to other model' do
           @changed_data[:content][0][:object] = 'SomeOtherObject'
-          expect { post :register, @changed_data }
+          expect { process :register, method: :post, params: @changed_data }
             .not_to change { @connection.count }
         end
       end
 
       describe 'removing' do
         before(:each) do
-          post :register, @data
+          process :register, method: :post, params: @data
         end
 
         it 'removes the model' do
           @changed_data[:content].delete_at(0)
-          expect { post :register, @changed_data }
+          expect { process :register, method: :post, params: @changed_data }
             .to change { @connection.count }
             .by(-1)
         end
