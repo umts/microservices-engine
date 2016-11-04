@@ -10,8 +10,13 @@ describe MicroservicesEngine::Connection do
     )
     @path = %w(test tset)
     stub_request(:get, @conn.url + @path.join('/'))
-      .with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Host'=>'example.com', 'User-Agent'=>'Ruby'})
-      .to_return(:status => 200, :body => "", :headers => {})
+      .with(headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'Host' => 'example.com',
+              'User-Agent' => 'Ruby'
+            })
+      .to_return(status: 200, body: '', headers: {})
   end
 
   describe 'self.get' do

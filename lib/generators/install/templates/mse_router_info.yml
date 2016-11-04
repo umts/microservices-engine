@@ -10,12 +10,14 @@ name: ''
 # NOTE: Do not attach the /v1/data to this.
 uri: ''
 
-# OPTIONAL field (can remain as empty array)
+# REQUIRED field
+# Verification token
+security_token: ''
+
+# REQUIRED Field
+# Endpoint of Microservices router
+router_uri: ''
+
+# OPTIONAL field (leave blank if not applicable)
 # The models that the service can give info on
 accessible_models: []
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
-# Do not edit the below variables unless you know what you're doing
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
-
-router_uri: 'http://example.com' # TODO: Add proper router endpoint
