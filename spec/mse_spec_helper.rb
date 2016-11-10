@@ -51,7 +51,7 @@ end
 # Gives a list of all changes to a semantic build that are valid
 def passing_semantic_builds
   base = [0, 1]
-    .repeated_permutation(3)
-    .to_a.map { |bld| relative_build(*bld) }
+         .repeated_permutation(3)
+         .to_a.map { |bld| relative_build(*bld) }
   base + ['2.0.0', '2.1.0', '2.0.1', '1.2.0']
 end
