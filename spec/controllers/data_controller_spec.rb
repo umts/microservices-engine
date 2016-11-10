@@ -41,7 +41,7 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
     describe 'updating MicroservicesEngine.build' do
       context 'failing builds' do
         failing_semantic_builds.each do |failing_build|
-          it 'fails with older version #{failing_build}' do
+          it "fails with older version #{failing_build}" do
             change_build(failing_build, @changed_data)
             expect { process :register, method: :post, params: @changed_data }.to raise_error(RuntimeError)
           end
@@ -50,7 +50,7 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
 
       context 'passing builds' do
         passing_semantic_builds.each do |passing_build|
-          it 'passes with newer version #{passing_build}' do
+          it "passes with newer version #{passing_build}" do
             change_build(passing_build, @changed_data)
             expect(MicroservicesEngine.build).to eq('1.1.1')
             process :register, method: :post, params: @changed_data

@@ -19,7 +19,7 @@ class MicroservicesEngineTest < ActiveSupport::TestCase
     describe 'build= and build' do
       context 'failing builds' do
         failing_semantic_builds.each do |failing_build|
-          it 'fails with older version #{failing_build}' do
+          it "fails with older version #{failing_build}" do
             expect { MicroservicesEngine.build = failing_build }.to raise_error(RuntimeError)
           end
         end
@@ -27,7 +27,7 @@ class MicroservicesEngineTest < ActiveSupport::TestCase
 
       context 'passing builds' do
         passing_semantic_builds.each do |passing_build|
-          it 'passes with newer version #{passing_build}' do
+          it "passes with newer version #{passing_build}" do
             expect(MicroservicesEngine.build).to eq('1.1.1')
             MicroservicesEngine.build = passing_build
             expect(MicroservicesEngine.build).to eq(passing_build)

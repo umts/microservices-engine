@@ -1,12 +1,27 @@
 # frozen_string_literal: true
+
+# Changes the build key of a request
+# Params:
+# +v+:: The value to change the key to
+# +b+:: The build request to change
 def change_build(v, b)
   b['build'] = v
 end
 
-def relative_build(ma, mi, r)
-  [ma, mi, r].map { |ver| 1 + ver }.join('.')
+# Takes in a series of semantic versions (major, minor, revision)
+# changes and outputs a new semantic version based off of 1.1.1
+# Params:
+# +major+:: Change in major version
+# +minor+:: Change in minor version
+# +revision+:: Change in revision version
+def relative_build(major, minor, revision)
+  # Example usage:
+  # relative_build(1, -1, 0) = 2.0.1
+  # relative_build(0, 0, 0) = 1.1.1
+  [major, minor, revision].map { |ver| 1 + ver }.join('.')
 end
 
+# Returns a basic set fo a build data for integration testing
 def build_basic_data
   {
     'build': '1.1.2',
@@ -26,14 +41,17 @@ def build_basic_data
   }
 end
 
+# Gives a list of all changes to a semantic build that are invalid
 def failing_semantic_builds
   [0, -1]
     .repeated_permutation(3)
     .to_a.map { |bld| relative_build(*bld) } - ['1.1.1']
 end
 
+# Gives a list of all changes to a semantic build that are valid
 def passing_semantic_builds
-  [0, 1]
+  base = [0, 1]
     .repeated_permutation(3)
     .to_a.map { |bld| relative_build(*bld) }
+  base + ['2.0.0', '2.1.0', '2.0.1', '1.2.0']
 end
