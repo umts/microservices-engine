@@ -59,7 +59,6 @@ module MicroservicesEngine
     # +token+:: The token to test validity of
     def valid_token?(token)
       return token == 'TEST_ENV_VALID_TOKEN' if Rails.env.test?
-      return true # Until the router implements verification, this will be true
 
       valid_token = config['security_token']
       raise 'Security token is not set! Please set it as soon as possible!' if valid_token.blank?
