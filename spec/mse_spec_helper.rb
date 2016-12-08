@@ -1,5 +1,18 @@
 # frozen_string_literal: true
 
+# -- Changes that directly affect RSpec -- #
+module RSpec
+  module Mocks
+    ::RSpec::Mocks::ExampleMethods.class_exec do
+      def expect_only_instance_of(klass)
+        expect(klass.count).to be(1)
+        AnyInstanceExpectationTarget.new(klass)
+      end
+    end
+  end
+end
+# ---------------------------------------- #
+
 # Changes the build key of a request
 # Params:
 # +v+:: The value to change the key to
