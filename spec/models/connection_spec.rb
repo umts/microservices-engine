@@ -20,9 +20,9 @@ describe MicroservicesEngine::Connection do
   end
 
   describe 'self.get' do
-    # it 'implies params' do
-    #   expect(@conn).to receive(:get).with(@path, {})
-    #   resp = MicroservicesEngine::Connection.get('ExampleModel', @path)
-    # end
+    it 'implies params' do
+      expect_only_instance_of(MicroservicesEngine::Connection).to receive(:get).with(@path, {})
+      MicroservicesEngine::Connection.get('ExampleModel', @path)
+    end
   end
 end
