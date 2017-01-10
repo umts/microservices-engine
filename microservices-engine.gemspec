@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 $LOAD_PATH.push File.expand_path('../lib', __FILE__)
+require 'microservices_engine/version'
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = 'umts-microservices-engine'
-  s.version     = '0.0.4'
+  s.version     = MicroservicesEngine::VERSION
   s.authors     = ['UMass Transportation Services']
   s.email       = ['transit-it@admin.umass.edu']
   s.homepage    = 'https://github.com/umts/microservices-engine'
