@@ -2,23 +2,27 @@
 require 'net/http'
 config_file = 'config/mse_router_info.yml'
 
+REPORT_MISSING_CONFIG_KEY = -> (key) {
+  raise ArgumentError, "Missing key #{key} in config/initializers/mse_router_info.yml."
+}
+
 unless File.file?(config_file)
-  raise IOError, '[MSE] > No router configuration YAML file found'
+  raise IOError, 'No router configuration YAML file found'
 end
 
 config_data = YAML.load_file(config_file)
 
-if [config_data['name'], config_data['uri'], config_data['security_token']].any?(&:blank?)
-  raise '[MSE] > Please fill out config/mse_router_info.yml'
-end
+service_name = config_data.fetch :name, &REPORT_MISSING_CONFIG_KEY
+service_url = config_data.fetch :uri, &REPORT_MISSING_CONFIG_KEY
+router_url = config_data.fetch :router_uri, &REPORT_MISSING_CONFIG_KEY
+security_token = config_data.fetch :security_token, &REPORT_MISSING_CONFIG_KEY
 
-router_uri = URI::HTTP.build(host: config_data['router_uri'])
 res = Net::HTTP.post_form(
-  router_uri,
-  'name': config_data['name'],
-  'url': uri,
-  'models': config_data['accessible_models'],
-  'security_token': config_data['security_token']
+  URI.parse(router_url),
+  name: service_name,
+  url: service_url,
+  models: config_data['accessible_models'],
+  security_token: security_token
 )
 
-raise '[MSE] > The router API response was invalid' if res.code != '200'
+raise 'The router API response was invalid' if res.code != '200'
