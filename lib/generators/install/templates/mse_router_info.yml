@@ -7,7 +7,6 @@ name: ''
 
 # REQUIRED field
 # The URI for the site hosting the microservice
-# NOTE: Do not attach the /v1/data to this.
 uri: ''
 
 # REQUIRED field
@@ -16,6 +15,7 @@ security_token: ''
 
 # REQUIRED Field
 # Endpoint of Microservices router
+# Make sure you do not add a slash to this.
 router_uri: ''
 
 # OPTIONAL field (leave blank if not applicable)
