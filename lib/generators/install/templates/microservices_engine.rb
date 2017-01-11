@@ -3,7 +3,7 @@ require 'net/http'
 config_file = 'config/mse_router_info.yml'
 
 REPORT_MISSING_CONFIG_KEY = -> (key) {
-  raise ArgumentError, "Missing key #{key} in config/initializers/mse_router_info.yml."
+  raise ArgumentError, "Missing key #{key} in #{config_file}"
 }
 
 unless File.file?(config_file)
