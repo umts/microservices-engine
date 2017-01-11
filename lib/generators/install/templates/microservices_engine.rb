@@ -12,14 +12,9 @@ if [config_data['name'], config_data['uri'], config_data['security_token']].any?
   raise '[MSE] > Please fill out config/mse_router_info.yml'
 end
 
-# Make sure the URI ends with a / character
-router_uri = config_data['router_uri']
-
-uri = config_data['uri']
-uri += '/' if uri[-1] != '/'
-
+router_uri = URI::HTTP.build(host: config_data['router_uri'])
 res = Net::HTTP.post_form(
-  URI(router_uri),
+  router_uri,
   'name': config_data['name'],
   'url': uri,
   'models': config_data['accessible_models'],
