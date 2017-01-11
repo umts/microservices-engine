@@ -18,7 +18,7 @@ router_url = config_data.fetch :router_uri, &REPORT_MISSING_CONFIG_KEY
 security_token = config_data.fetch :security_token, &REPORT_MISSING_CONFIG_KEY
 
 res = Net::HTTP.post_form(
-  URI(router_url),
+  URI.parse(router_url),
   name: service_name,
   url: service_url,
   models: config_data['accessible_models'],
