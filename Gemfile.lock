@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    umts-microservices-engine (0.0.3)
-      rails (~> 5.0)
+    umts-microservices-engine (0.0.9)
+      rails (>= 3.0, < 6.0)
 
 GEM
   remote: https://rubygems.org/
@@ -171,4 +171,4 @@ DEPENDENCIES
   webmock (~> 2.1)
 
 BUNDLED WITH
-   1.13.1
+   1.13.6
