@@ -18,11 +18,6 @@ ActiveRecord::Schema.define(version: 20160916212601) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "microservices_engine_configurations", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "microservices_engine_connections", force: :cascade do |t|
     t.string   "name"
     t.string   "object"
