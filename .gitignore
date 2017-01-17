@@ -3,8 +3,7 @@
 .rspec
 /test/dummy/log/*.log
 /test/dummy/tmp
-/test/dummy/db/*.sqlite3
-/test/dummy/db/*.sqlite3-journal
+*.sqlite3
 
 # dotenv
 # TODO Comment out this rule if environment variables can be committed
