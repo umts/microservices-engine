@@ -1,3 +1,4 @@
+*.gem
 *.rbc
 .rspec
 /test/dummy/log/*.log
