@@ -63,10 +63,11 @@ accessible_models: []
 
  * The `name` of your application can be anything you desire.
  * The `uri` is the base link for the website this is being hosted on. For example, `http://potatoes.com/`. Do NOT attach the router's respective endpoint to this link. So do **NOT** do this: `http://potatoes.com/v1/data/`.
- * The `security_token` is a local token that should be set to something extremely confidential. To change this, you must contact the administrator of the `microservices-router` portion so that he can modify your token. Once the token is set, there is no way to change it. Attempting to change it will cause an exception during setup.
+ * The `security_token` is a local token that should be set to something extremely confidential. To change this, you must contact the administrator of the `microservices-router` portion so that they can modify your token. Once the token is set, there is no way to change it. Attempting to change it will cause an exception during setup.
  * The `router_uri` is just the endpoint that the engine will send data to. Contact the router's administrator to find out this value.
  * The `accessible_models` field is optional. In here you will put a list of strings corresponding to the "models" you want other engines to be able to access. **This assumes you have an API endpoint / documentation for these models on your application**.
  
 ### Finish
 
-You should now be able to run your server. If anything goes wrong, the console should alert you of such.
+You should now be able to run your server. If anything goes wrong, the console should alert you.
+To run your server without checking in with the router, run $ rails server DISABLE_ROUTER_CHECKIN=true
