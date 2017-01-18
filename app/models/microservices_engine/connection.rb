@@ -7,7 +7,10 @@ module MicroservicesEngine
 
     def self.get(resource, path, params = {})
       conn = Connection.find_by(object: resource.to_s) # Does :abc match "abc"?
-      conn.get(path, params) if conn.present?
+      if conn.present?
+        conn.get path, params
+      else raise ArgumentError, "Unknown resource #{resource}"
+      end
     end
 
     def get(path, params = {})
@@ -22,7 +25,10 @@ module MicroservicesEngine
       uri.query = URI.encode_www_form(params)
 
       res = Net::HTTP.get_response(uri)
-      return res.body if res.is_a?(Net::HTTPSuccess)
+      if res.is_a? Net::HTTPSuccess
+        res.body
+      else raise ArgumentError, res.body
+      end
     end
   end
 end
