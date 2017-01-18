@@ -6,5 +6,6 @@ class InstallGenerator < Rails::Generators::Base
     template 'mse_router_info.yml', 'config/mse_router_info.yml'
     copy_file 'microservices_engine.rb',
               'config/initializers/microservices_engine.rb'
+    generate 'migration', 'create_microservices_engine_connections', 'name:string', 'object:string', 'url:string'
   end
 end
