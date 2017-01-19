@@ -21,13 +21,24 @@ unless ENV['DISABLE_ROUTER_CHECKIN']
 
   router_url = router_url + '/services/register'
 
-  res = Net::HTTP.post_form(
+  response = Net::HTTP.post_form(
     URI.parse(router_url),
     name: service_name,
     url: service_url,
     models: config_data['accessible_models'],
     security_token: security_token
   )
+
+  response_data = JSON.parse(response.body)
+  response_data.each do |service|
+    if service["models"].present?
+      url = service["url"]
+      service["models"].each do |model|
+        object = model["name"]
+        MicroservicesEngine::Connection.new(url: url, object: object)
+      end
+    end
+  end
 
   raise 'The router API response was invalid' if res.code != '200'
 
