@@ -19,6 +19,40 @@ describe MicroservicesEngine::Initializer do
     end
   end
 
+  describe 'check_in_with_router' do
+    let :data do
+      { 'name' => 'service_name',
+        'uri' => 'service_url',
+        'router_uri' => 'http://example.com',
+        'security_token' => 'security token' }
+    end
+    let(:call){ described_class.check_in_with_router using: data }
+    it 'makes a Net::HTTP POST request and returns the response' do
+      expect(Net::HTTP).to receive(:post_form).and_return 'some response'
+      expect(call).to eql 'some response'
+    end
+    it 'sends the request to the provided router_uri + /services/register' do
+      router_address = data['router_uri']
+      endpoint_address = router_address + '/services/register'
+      endpoint_uri = URI.parse(endpoint_address)
+      expect(Net::HTTP).to receive(:post_form).with endpoint_uri, anything
+      call
+    end
+    it 'includes the service name, url, and security token in the params' do
+      expected_params = { name: data['name'], url: data['uri'],
+                          security_token: data['security_token'] }
+      expect(Net::HTTP).to receive(:post_form)
+        .with anything, hash_including(expected_params)
+      call
+    end
+    it 'includes any accessible models, if they exist' do
+      data['accessible_models'] = 'apples, bananas'
+      expect(Net::HTTP).to receive(:post_form)
+        .with anything, hash_including(models: 'apples, bananas')
+      call
+    end
+  end
+
   describe 'report_missing_config_key' do
     let(:call) { described_class.report_missing_config_key :bananas }
     it 'raises an ArgumentError' do
