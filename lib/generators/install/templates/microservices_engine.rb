@@ -30,12 +30,13 @@ unless ENV['DISABLE_ROUTER_CHECKIN']
   )
 
   response_data = JSON.parse(response.body)
+  MicroservicesEngine::Connection.destroy_all
   response_data.each do |service|
-    if service["models"].present?
-      url = service["url"]
-      service["models"].each do |model|
-        object = model["name"]
-        MicroservicesEngine::Connection.new(url: url, object: object)
+    if service['models'].present?
+      url = service['url']
+      service['models'].each do |model|
+        object = model['name']
+        MicroservicesEngine::Connection.create(url: url, object: object)
       end
     end
   end
