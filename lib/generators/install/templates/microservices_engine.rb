@@ -36,7 +36,7 @@ unless ENV['DISABLE_ROUTER_CHECKIN']
       url = service['url']
       service['models'].each do |model|
         object = model['name']
-        MicroservicesEngine::Connection.create(url: url, object: object)
+        MicroservicesEngine::Connection.create!  url: url, object: object
       end
     end
   end
