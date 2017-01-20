@@ -2,6 +2,25 @@ require 'spec_helper'
 require 'generators/install/templates/microservices_engine'
 
 describe MicroservicesEngine::Initializer do
+
+  describe 'initialize!' do
+    let(:call) { described_class.initialize! }
+    context 'ENV has key DISABLE_ROUTER_CHECKIN' do
+      before { ENV['DISABLE_ROUTER_CHECKIN'] = 'bananas' }
+      it 'does nothing' do
+        expect(described_class).not_to receive :check_for_config_file!
+        expect(described_class).not_to receive :check_in_with_router
+        expect(described_class).not_to receive :update_connections_database
+      end
+    end
+    context 'otherwise' do
+      it 'checks for a config file and parses it as YAML'
+      it 'checks in with the router using the data from the config file'
+      it "raises an exception if the router's response code was not 200"
+      it 'updates the connections database using the response from the router'
+    end
+  end
+
   describe 'check_for_config_file!' do
     let(:filepath) { 'some_filepath' }
     let(:call) { described_class.check_for_config_file! filepath }
