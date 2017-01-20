@@ -9,6 +9,9 @@ describe MicroservicesEngine::Initializer do
       'router_uri' => 'http://example.com',
       'security_token' => 'security token' }
   end
+  let :response_data do
+    # TODO
+  end
 
   describe 'initialize!' do
     let(:call) { described_class.initialize! }
@@ -96,6 +99,6 @@ describe MicroservicesEngine::Initializer do
   end
 
   describe 'update_connections_database' do
-    # TODO
+    # TODO, using response_data (defined above)
   end
 end
