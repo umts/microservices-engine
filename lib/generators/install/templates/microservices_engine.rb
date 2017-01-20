@@ -12,7 +12,7 @@ module MicroservicesEngine
           config_data = YAML.load_file CONFIG_FILE
           response = check_in_with_router using: config_data
           response_data = JSON.parse response.body
-          update_connections_list with: response_data
+          update_connections_database with: response_data
           raise 'The router API response was invalid' if response.code != '200'
         end
       end
@@ -47,7 +47,7 @@ module MicroservicesEngine
         raise ArgumentError, "Missing key #{key} in #{CONFIG_FILE}"
       end
 
-      def update_connections_list(options = {})
+      def update_connections_database(options = {})
         if options.key? :with
           response_data = options[:with]
           MicroservicesEngine::Connection.destroy_all
