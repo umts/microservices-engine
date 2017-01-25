@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'rails_helper'
 require 'generators/install/templates/microservices_engine'
 
 describe MicroservicesEngine::Initializer do
@@ -10,14 +11,15 @@ describe MicroservicesEngine::Initializer do
       'security_token' => 'security token' }
   end
   let :response_data do
-    # TODO
+    [{'url' => 'sharklazers',
+      'models' => [{'name' => 'sharks'}, {'name' => 'lazers'}]}]
   end
 
   describe 'initialize!' do
     let(:call) { described_class.initialize! }
     context 'ENV has key DISABLE_ROUTER_CHECKIN' do
-      before { ENV['DISABLE_ROUTER_CHECKIN'] = 'bananas' }
       it 'does nothing' do
+        stub_const('ENV', {'DISABLE_ROUTER_CHECKIN' => 'bananas'})
         expect(described_class).not_to receive :check_for_config_file!
         expect(described_class).not_to receive :check_in_with_router
         expect(described_class).not_to receive :update_connections_database
@@ -26,6 +28,8 @@ describe MicroservicesEngine::Initializer do
     end
     context 'otherwise' do
       it 'checks for a config file and parses it as YAML' do
+        stub_request(:post, "http://example.com/services/register")
+          .to_return(body: response_data.to_json)
         stub_const 'MicroservicesEngine::Initializer::CONFIG_FILE', 'apples'
         expect(described_class).to receive(:check_for_config_file!)
           .with 'apples'
@@ -33,9 +37,32 @@ describe MicroservicesEngine::Initializer do
           .and_return config_data
         call
       end
-      it 'checks in with the router using the data from the config file'
-      it "raises an exception if the router's response code was not 200"
-      it 'updates the connections database using the response from the router'
+      it 'checks in with the router using the data from the config file' do
+        allow(described_class).to receive(:check_for_config_file!) { nil }
+        allow(YAML).to receive(:load_file) { config_data }
+        allow(JSON).to receive(:parse) { response_data }
+        response = Struct.new(:code, :body).new('200', 'body')
+        expect(described_class).to receive(:check_in_with_router) { response }
+        call
+      end
+      it "raises an exception if the router's response code was not 200" do
+        allow(described_class).to receive(:check_for_config_file!) { nil }
+        allow(YAML).to receive(:load_file) { config_data }
+        allow(JSON).to receive(:parse) { response_data }
+        stub_request(:post, "http://example.com/services/register")
+          .to_return(status: [500, 'Internal Server Error'])
+        expect{ call }
+          .to raise_error(RuntimeError, 'The router API response was invalid')
+      end
+      it 'updates the connections database using the response from the router' do
+        allow(described_class).to receive(:check_for_config_file!) { nil }
+        allow(YAML).to receive(:load_file) { config_data }
+        allow(JSON).to receive(:parse) { response_data }
+        response = Struct.new(:code, :body).new('200', 'body')
+        allow(described_class).to receive(:check_in_with_router) { response }
+        expect(described_class).to receive(:update_connections_database)
+        call
+      end
     end
   end
 
@@ -99,6 +126,16 @@ describe MicroservicesEngine::Initializer do
   end
 
   describe 'update_connections_database' do
-    # TODO, using response_data (defined above)
+    let :call do
+      described_class.update_connections_database(with: response_data)
+    end
+    let(:connection_class){ MicroservicesEngine::Connection }
+    it 'destroys all previous connection objects' do
+      expect(connection_class).to receive(:destroy_all).once
+      call
+    end
+    it 'creates a new connection object for each url/model pair' do
+      expect{ call }.to change{ connection_class.count }.from(0).to(2)
+    end
   end
 end
