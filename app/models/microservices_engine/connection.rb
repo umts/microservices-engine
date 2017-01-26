@@ -3,7 +3,7 @@ require 'net/http'
 
 module MicroservicesEngine
   class Connection < ActiveRecord::Base
-    validates :name, :url, :object, presence: true
+    validates :url, :object, presence: true
 
     def self.get(resource, path, params = {})
       conn = Connection.find_by(object: resource.to_s) # Does :abc match "abc"?
