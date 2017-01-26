@@ -38,28 +38,33 @@ describe MicroservicesEngine::Initializer do
         call
       end
       it 'checks in with the router using the data from the config file' do
-        allow(described_class).to receive(:check_for_config_file!) { nil }
-        allow(YAML).to receive(:load_file) { config_data }
-        allow(JSON).to receive(:parse) { response_data }
-        response = Struct.new(:code, :body).new('200', 'body')
-        expect(described_class).to receive(:check_in_with_router) { response }
+        allow(described_class).to receive(:check_for_config_file!)
+                              .and_return nil
+        allow(YAML).to receive(:load_file).and_return config_data
+        allow(JSON).to receive(:parse).and_return response_data
+        response = double code: '200', body: 'body'
+        expect(described_class).to receive(:check_in_with_router)
+                               .and_return response
         call
       end
       it "raises an exception if the router's response code was not 200" do
-        allow(described_class).to receive(:check_for_config_file!) { nil }
-        allow(YAML).to receive(:load_file) { config_data }
-        allow(JSON).to receive(:parse) { response_data }
+        allow(described_class).to receive(:check_for_config_file!)
+                              .and_return nil
+        allow(YAML).to receive(:load_file).and_return config_data
+        allow(JSON).to receive(:parse).and_return response_data
         stub_request(:post, "http://example.com/services/register")
           .to_return(status: [500, 'Internal Server Error'])
         expect{ call }
           .to raise_error(RuntimeError, 'The router API response was invalid')
       end
       it 'updates the connections database using the response from the router' do
-        allow(described_class).to receive(:check_for_config_file!) { nil }
-        allow(YAML).to receive(:load_file) { config_data }
-        allow(JSON).to receive(:parse) { response_data }
-        response = Struct.new(:code, :body).new('200', 'body')
-        allow(described_class).to receive(:check_in_with_router) { response }
+        allow(described_class).to receive(:check_for_config_file!)
+                              .and_return nil
+        allow(YAML).to receive(:load_file).and_return config_data
+        allow(JSON).to receive(:parse).and_return response_data
+        response = double code: '200', body: 'body'
+        allow(described_class).to receive(:check_in_with_router)
+                              .and_return response
         expect(described_class).to receive(:update_connections_database)
         call
       end
