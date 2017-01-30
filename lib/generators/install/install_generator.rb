@@ -7,7 +7,7 @@ class InstallGenerator < ActiveRecord::Generators::Base
     template 'mse_router_info.yml', 'config/mse_router_info.yml'
     copy_file 'microservices_engine.rb',
               'config/initializers/microservices_engine.rb'
-    generate 'migration', 'CreateMicroservicesEngineConnection name:string object:string url:string'
+    #generate 'migration', 'CreateMicroservicesEngineConnection name:string object:string url:string'
     #migration_template 'create_microservices_engine_connections.rb',
     #                   'db/migrate/create_microservices_engine_connections.rb',
     #                   migration_version: migration_version
