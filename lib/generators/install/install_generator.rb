@@ -13,10 +13,10 @@ class InstallGenerator < ActiveRecord::Generators::Base
   end
 
   # idea for this is from the 'devise' gem by plataformatec
-  def migration_version
-    if Rails::VERSION::MAJOR >= 5
-      "[#{Rails::VERSION::MAJOR}.#{Rails::VERSION::MINOR}]"
-    end
-  end
+  #def migration_version
+    #if Rails::VERSION::MAJOR >= 5
+      #"[#{Rails::VERSION::MAJOR}.#{Rails::VERSION::MINOR}]"
+    #end
+  #end
 
 end
