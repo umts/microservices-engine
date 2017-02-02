@@ -6,8 +6,8 @@ module MicroservicesEngine
     validates :url, :object, presence: true
 
     def self.get(resource, path, params = {})
+      # examples: resource: :trips, path: [:generate_random_trips]
       conn = Connection.find_by(object: resource.to_s) # Does :abc match "abc"?
-      # resource is :trips, path is [:generate_random_trips]
       full_path = path.unshift(resource).join('/')
       # full path = 'trips/generate_random_trips'
       if conn.present?
