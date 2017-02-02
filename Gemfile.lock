@@ -173,6 +173,7 @@ PLATFORMS
 
 DEPENDENCIES
   pry-byebug
+  rails (>= 3.2.21)
   rspec (~> 3.5)
   rspec-rails (~> 3.5)
   rubocop (~> 0.45)
