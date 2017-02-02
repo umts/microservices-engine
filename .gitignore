@@ -11,8 +11,9 @@
 
 # must add Gemfile.lock to gitignore so travis has to rebuild the gem
 # environment for every different version of rails.
+# OR MAYBE NOT.
 
-Gemfile.lock
+# Gemfile.lock
 
 # these should all be checked in to normalize the environment:
 .ruby-version, .ruby-gemset
