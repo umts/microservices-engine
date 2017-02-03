@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
+
 if ENV['RAILS_VERSION'] == '5.0.1'
   require File.expand_path('../../test/dummy/config/environment', __FILE__)
 elsif ENV['RAILS_VERSION'] == '4.2.6'
