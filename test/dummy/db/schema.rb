@@ -18,6 +18,14 @@ ActiveRecord::Schema.define(version: 20160916212601) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "microservices_engine_connections", force: :cascade do |t|
+    t.string   "name"
+    t.string   "object"
+    t.string   "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "test_models", force: :cascade do |t|
     t.string   "name"
     t.decimal  "meme"
