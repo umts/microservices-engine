@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170130184147) do
+ActiveRecord::Schema.define(version: 20170130215723) do
 
   create_table "field_trips", force: :cascade do |t|
     t.string   "name"
@@ -19,11 +19,9 @@ ActiveRecord::Schema.define(version: 20170130184147) do
   end
 
   create_table "microservices_engine_connections", force: :cascade do |t|
-    t.string   "name"
-    t.string   "object"
-    t.string   "url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "name"
+    t.string "object"
+    t.string "url"
   end
 
   create_table "test_models", force: :cascade do |t|
