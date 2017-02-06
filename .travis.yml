@@ -4,8 +4,9 @@ addons:
   codeclimate:
     repo_token: 22840649ef0d6a85c80f7276acbb377b5baee4938f1d15741f34627245c84c92
 env: RAILS_ENV=test
+before_script:
+  - bundle exec rake db:create db:schema:load
 script:
-  - bundle exec rails db:reset db:migrate
   - bundle exec rspec
 notifications:
   email:
