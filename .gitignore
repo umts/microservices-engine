@@ -3,6 +3,7 @@
 .rspec
 /test/dummy/log/*.log
 /test/dummy/tmp
+/coverage/*
 *.sqlite3
 
 # dotenv
