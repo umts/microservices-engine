@@ -9,12 +9,6 @@ env: RAILS_ENV=test
 rvm:
   - 2.3.1
   - 1.9.3
-matrix:
- exclude:
- - rvm: 2.3.1
-   env: 'RAILS_VERSION=4.2.6'
- - rvm: 2.3.1
-   env: 'RAILS_VERSION=5.0.1'
 script:
   - bundle exec rails db:drop db:create db:migrate
   - bundle exec rspec
