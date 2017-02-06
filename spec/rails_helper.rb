@@ -1,7 +1,17 @@
 # frozen_string_literal: true
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../../test/dummy/config/environment', __FILE__)
+
+if ENV['RAILS_VERSION'] == '5.0.1'
+  require File.expand_path('../../test/dummy/config/environment', __FILE__)
+elsif ENV['RAILS_VERSION'] == '4.2.6'
+  require File.expand_path('../../test/rails4dummy/config/environment', __FILE__)
+elsif ENV['RAILS_VERSION'] == '3.2.21'
+  require File.expand_path('../../test/rails3dummy/config/environment', __FILE__)
+else 
+  require File.expand_path('../../test/dummy/config/environment', __FILE__)
+end
+# if rails env = this expand path of whatever
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'spec_helper'
