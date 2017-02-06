@@ -1,5 +1,4 @@
 language: ruby
-rvm: 2.3.1
 addons:
   codeclimate:
     repo_token: 22840649ef0d6a85c80f7276acbb377b5baee4938f1d15741f34627245c84c92
@@ -7,6 +6,15 @@ env: RAILS_ENV=test
   - 'RAILS_VERSION=3.2.21'
   - 'RAILS_VERSION=4.2.6'
   - 'RAILS_VERSION=5.0.1'
+rvm:
+  - 2.3.1
+  - 1.9.3
+matrix:
+ exclude:
+ - rvm: 2.3.1
+   env: 'RAILS_VERSION=4.2.6'
+ - rvm: 2.3.1
+   env: 'RAILS_VERSION=5.0.1'
 script:
   - bundle exec rails db:drop db:create db:migrate
   - bundle exec rspec
