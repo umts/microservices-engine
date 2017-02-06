@@ -72,5 +72,5 @@ accessible_models: []
 You should now be able to run your server. If anything goes wrong, the console should alert you.
 To run your server without checking in with the router, run 
 ```ruby
-$ rails server DISABLE_ROUTER_CHECKIN=true
+$ DISABLE_ROUTER_CHECKIN=true rails server 
 ```
