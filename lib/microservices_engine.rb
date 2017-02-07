@@ -21,20 +21,10 @@ module MicroservicesEngine
       #       the major or minor version increases.           #
       # ----------------------------------------------------- #
 
-      major, minor, rev = b.split('.').map(&:to_i)
-      cmajor, cminor, crev = build.split('.').map(&:to_i)
+      current = Gem::Version.new(build)
+      given = Gem::Version.new(b)
 
-      # ---------------------- Examples ---------------------- #
-      # 2.3.2 -> 1.3.2      1.2.3 -> 1.1.3      1.2.3 -> 0.2.3 #
-      # 1.2.3 -> 1.2.2      1.2.3 -> 1.1.2      1.2.3 -> 0.2.3 #
-      # ------------------------------------------------------ #
-      invalid_changes = [
-        cmajor > major,
-        cminor > minor && !(major > cmajor),
-        crev > rev && !(minor > cminor || major > cmajor)
-      ]
-
-      if invalid_changes.any?
+      if current > given
         raise "Received version is older than existing. Now: #{build}. Given: #{b}"
       end
 

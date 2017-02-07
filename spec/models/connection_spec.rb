@@ -9,7 +9,8 @@ describe MicroservicesEngine::Connection do
       object: 'ExampleModel'
     )
     @path = %w(test tset)
-    stub_request(:get, @conn.url + @path.join('/'))
+    @full_path = ([@conn.object] + @path).join('/')
+    stub_request(:get, @conn.url + @full_path)
       .with(headers: {
               'Accept' => '*/*',
               'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
@@ -21,7 +22,7 @@ describe MicroservicesEngine::Connection do
 
   describe 'self.get' do
     it 'implies params' do
-      expect_only_instance_of(MicroservicesEngine::Connection).to receive(:get).with(@path, {})
+      expect_only_instance_of(MicroservicesEngine::Connection).to receive(:get).with(@full_path, {})
       MicroservicesEngine::Connection.get('ExampleModel', @path)
     end
   end
