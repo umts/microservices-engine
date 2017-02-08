@@ -7,13 +7,13 @@ module MicroservicesEngine
 
     def self.get(resource, path, params = {})
       conn = Connection.find_by(object: resource.to_s) # Does :abc match "abc"?
+
       # resource is :trips, path is [:generate_random_trips]
       full_path = path.unshift(resource).join('/')
       # full path = 'trips/generate_random_trips'
-      if conn.present?
-        conn.get full_path, params
-      else raise ArgumentError, "Unknown resource #{resource}"
-      end
+
+      raise ArgumentError, "Unknown resource #{resource}" unless conn.present?
+      conn.get full_path, params
     end
 
     def get(full_path, params = {})
@@ -28,10 +28,8 @@ module MicroservicesEngine
       uri.query = URI.encode_www_form(params)
 
       res = Net::HTTP.get_response(uri)
-      if res.is_a? Net::HTTPSuccess
-        res.body
-      else raise ArgumentError, res.body
-      end
+      raise ArgumentError, res.body unless res.is_a? Net::HTTPSucess
+      res.body
     end
   end
 end
