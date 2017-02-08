@@ -4,8 +4,10 @@ addons:
   codeclimate:
     repo_token: 22840649ef0d6a85c80f7276acbb377b5baee4938f1d15741f34627245c84c92
 env: RAILS_ENV=test
-script:
+before_script:
+  - rails generate install microservices-engine
   - bundle exec rails db:create db:migrate
+script:
   - bundle exec rspec
 notifications:
   email:
