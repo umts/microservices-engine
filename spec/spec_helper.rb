@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require 'simplecov'
-SimpleCov.start
+SimpleCov.start 'rails'
 
 require 'pry-byebug'
 require 'yaml'
