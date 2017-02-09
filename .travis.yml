@@ -6,6 +6,7 @@ addons:
 gemfile:
   - 'gemfiles/rails3.gemfile'
   - 'gemfiles/rails4.gemfile'
+  - 'Gemfile'
 env: RAILS_ENV=test
 rvm:
   - 2.3.1
