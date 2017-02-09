@@ -1,0 +1,17 @@
+source "https://rubygems.org"
+
+gem 'rails','~> 3.2.11'
+gem 'sqlite3'
+
+# might need webmock 1.24.6, not sure
+group :test do
+  gem 'rspec','~> 3.0'
+  gem 'webmock'
+  gem 'rspec-rails','~> 3.0'
+end
+
+group :development, :test do
+  gem 'pry-debugger'
+end
+
+ruby '1.9.3'
