@@ -7,6 +7,10 @@ addons:
   codeclimate:
     repo_token: 22840649ef0d6a85c80f7276acbb377b5baee4938f1d15741f34627245c84c92
 env: RAILS_ENV=test
+gemfile:
+  - gemfiles/rails_3.gemfile
+  - gemfiles/rails_4.gemfile
+  - gemfiles/rails_5.gemfile
 before_script:
   - bin/rails g install microservices-engine
   - bundle exec rails db:create db:migrate
@@ -19,3 +23,6 @@ notifications:
     recipients: programmers@admin.umass.edu
 
 # rails versions: 3.2.21, 4.2.6, 5.0.1
+# matrix:
+#   fast_finish: true
+#   exclude: - rvm 2.3.1
