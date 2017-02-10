@@ -1,5 +1,8 @@
 language: ruby
-rvm: 2.3.1
+rvm:
+  - 2.3.1
+  - 1.9.3
+  - ruby-head 
 addons:
   codeclimate:
     repo_token: 22840649ef0d6a85c80f7276acbb377b5baee4938f1d15741f34627245c84c92
@@ -14,3 +17,5 @@ notifications:
     on_success: never
     on_failure: change
     recipients: programmers@admin.umass.edu
+
+# rails versions: 3.2.21, 4.2.6, 5.0.1
