@@ -14,6 +14,7 @@ gemfile:
 before_script:
   - bin/rails g install microservices-engine
   - bundle exec rails db:create db:migrate
+# replace before_script with script that depends on env. variable
 script:
   - bundle exec rspec
 notifications:
