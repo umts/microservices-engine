@@ -1,7 +1,15 @@
 # frozen_string_literal: true
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../../test/dummy/config/environment', __FILE__)
+
+if ENV['RAILS_VERSION'] == '3'
+  require File.expand_path('../../test/rails3dummy/config/environment', __FILE__)
+elsif ENV['RAILS_VERSION'] == '4'
+  require File.expand_path('../../test/rails4dummy/config/environment', __FILE__)
+else 
+  require File.expand_path('../../test/dummy/config/environment', __FILE__)
+end
+# if rails env = this expand path of whatever
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'spec_helper'
@@ -26,7 +34,11 @@ require 'webmock/rspec'
 
 # Checks for pending migration and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
-ActiveRecord::Migration.maintain_test_schema!
+unless ENV['RAILS_VERSION'] == '3'
+  ActiveRecord::Migration.maintain_test_schema!
+end
+# I do not know what to do if it's rails 3 tho. rake db:test:prepare should
+# handle it, but.
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
