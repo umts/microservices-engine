@@ -31,8 +31,7 @@ module MicroservicesEngine
         data = params['content']
         data_objects = data.map { |d| d['object'] }
 
-        # Disabled until router implements token authorization
-        # verify_token(params['token'])
+        verify_token(params['token'])
         verify_build(params['build'])
 
         existing = Connection.all
