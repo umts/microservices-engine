@@ -4,7 +4,7 @@ engines:
   duplication:
     enabled: true
     config:
-      languages: 
+      languages:
       - ruby
     exclude_paths:
     - spec/**/*
@@ -16,6 +16,7 @@ engines:
 exclude_paths:
 - coverage/**/*
 - db/**/*
+- test/**/*
 ratings:
   paths:
   - app/**/*.rb
