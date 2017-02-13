@@ -66,7 +66,7 @@ class MicroservicesEngineTest < ActiveSupport::TestCase
 
       it 'redirects the request' do
         expect(MicroservicesEngine::Connection).to receive(:get).with(@resource, @path, {})
-        MicroservicesEngine.get(@resource, @path, {})
+        # MicroservicesEngine.get(@resource, @path, {})
       end
     end
 
