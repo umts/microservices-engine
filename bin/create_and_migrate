@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 if ENV['RAILS_VERSION'] == '5'
-  system( "bundle exec rails db:create db:migrate" )
+  system( "RAILS_ENV=test bundle exec rails db:create db:migrate" )
 else
-  system( "bundle exec rake db:create db:migrate" )
+  system( "RAILS_ENV=test bundle exec rake db:create db:migrate" )
 end
