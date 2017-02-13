@@ -17,13 +17,23 @@ describe MicroservicesEngine::Connection do
               'Host' => 'example.com',
               'User-Agent' => 'Ruby'
             })
-      .to_return(status: 200, body: '', headers: {})
+      .to_return(status: 200, body: 'response_body_here', headers: {})
   end
 
   describe 'self.get' do
     it 'implies params' do
       expect_only_instance_of(MicroservicesEngine::Connection).to receive(:get).with(@full_path, {})
       MicroservicesEngine::Connection.get('ExampleModel', @path)
+    end
+
+    it 'returns the response body' do
+      expect(MicroservicesEngine::Connection.get('ExampleModel', @path)).to be('response_body_here')
+    end
+  end
+
+  describe 'get' do
+    it 'returns the response body' do
+      expect(@conn.get(@full_path)).to be('response_body_here')
     end
   end
 end

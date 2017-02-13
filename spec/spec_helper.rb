@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 require 'simplecov'
-SimpleCov.start 'rails'
+SimpleCov.start 'rails' do
+  # There is no well supported way to test generators in RSpec, so we need to ignore them
+  add_filter '/lib/generators/'
+
+  # This file just holds a constant, so we don't really need to test it.
+  add_filter '/lib/microservices_engine/version.rb'
+end
 require 'pry-byebug'
 require 'yaml'
 

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-require 'spec_helper'
+require 'rails_helper'
+require 'mse_spec_helper'
 
 class MicroservicesEngineTest < ActiveSupport::TestCase
   describe MicroservicesEngine do
@@ -12,8 +13,7 @@ class MicroservicesEngineTest < ActiveSupport::TestCase
         'router_uri': '',
         'accessible_models': ''
       }
-      allow(MicroservicesEngine).to receive(:config).and_return(@expected)
-      allow(MicroservicesEngine).to receive(:reload_config).and_return(@expected)
+      allow(YAML).to receive(:load_file).and_return(@expected)
     end
 
     describe 'build= and build' do
@@ -54,6 +54,19 @@ class MicroservicesEngineTest < ActiveSupport::TestCase
         @expected['name'] = 'potatoes'
         expect(MicroservicesEngine.config)
           .to eq(@expected)
+      end
+    end
+
+    describe 'get' do
+      before(:each) do
+        @resource = 'ExampleModel'
+        @path = %w(apples oranges)
+        # allow(MicroservicesEngine::Connection).to receive(:get).and_return(1)
+      end
+
+      it 'redirects the request' do
+        expect(MicroservicesEngine::Connection).to receive(:get).with(@resource, @path, {})
+        MicroservicesEngine.get(@resource, @path, {})
       end
     end
 

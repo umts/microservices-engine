@@ -28,7 +28,7 @@ module MicroservicesEngine
       uri.query = URI.encode_www_form(params)
 
       res = Net::HTTP.get_response(uri)
-      raise ArgumentError, res.body unless res.is_a? Net::HTTPSucess
+      raise ArgumentError, res.body unless res.is_a? Net::HTTPSuccess
       res.body
     end
   end
