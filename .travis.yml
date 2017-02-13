@@ -19,7 +19,7 @@ gemfile:
   - gemfiles/rails_5.gemfile
 before_script:
   - bin/rails g install microservices-engine
-  - bin/create_and_migrate.rb
+  - bin/create_and_migrate
 script:
   - bundle exec rspec
 notifications:
