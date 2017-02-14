@@ -18,7 +18,7 @@ gemfile:
   - gemfiles/rails_5.gemfile
 before_script:
   - bin/rails g install microservices-engine
-  - chmod +x bin/create_and_migrate
+  - chmod +x scripts/travis.sh
 script:
   - bundle exec rspec
 notifications:
