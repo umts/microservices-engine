@@ -17,6 +17,7 @@ gemfile:
   - gemfiles/rails_4.gemfile
   - gemfiles/rails_5.gemfile
 before_script:
+  - chmod +x scripts/test.sh
   - bin/rails g install microservices-engine
   - chmod +x scripts/travis.sh
 script:
