@@ -17,8 +17,8 @@ gemfile:
   - gemfiles/rails_4.gemfile
   - gemfiles/rails_5.gemfile
 before_script:
-  - echo 'this is a sh** show'
   - bin/rails g install microservices-engine
+  - bundle exec rake db:migrate
   - chmod +x scripts/travis.sh
 script:
   - bundle exec rspec
