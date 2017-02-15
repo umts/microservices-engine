@@ -25,7 +25,7 @@ group :development do
   gem 'rake'
 end
 
-group :ruby_2 do
+group :newruby do
   gem 'pry-byebug'
-  gem 'rubocop' '~> 0.45'
+  gem 'rubocop', '~> 0.45'
 end
