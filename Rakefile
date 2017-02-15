@@ -7,11 +7,11 @@ end
 
 case ENV['RAILS_VERSION']
 when '3'
-  APP_RAKEFILE = File.expand_path('test/rails3dummy/Rakefile', __FILE__)
+  APP_RAKEFILE = File.expand_path('../test/rails3dummy/Rakefile', __FILE__)
 when '4'
-  APP_RAKEFILE = File.expand_path('test/rails4dummy/Rakefile', __FILE__)
+  APP_RAKEFILE = File.expand_path('../test/rails4dummy/Rakefile', __FILE__)
 when '5'
-  APP_RAKEFILE = File.expand_path('test/dummy/Rakefile', __FILE__)
+  APP_RAKEFILE = File.expand_path('../test/dummy/Rakefile', __FILE__)
 end
 # do we need to expand_paths for the other dummy apps?
 load 'rails/tasks/engine.rake'
