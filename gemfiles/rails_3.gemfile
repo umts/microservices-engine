@@ -11,3 +11,5 @@ group :development do
   gem "bundler"
   gem "rake"
 end
+
+gemspec :path => "../"
