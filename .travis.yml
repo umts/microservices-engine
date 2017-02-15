@@ -12,17 +12,10 @@ env:
     - 'RAILS_VERSION=3'
     - 'RAILS_VERSION=4'
     - 'RAILS_VERSION=5'
-gemfile:
-  - gemfiles/rails_3.gemfile
-  - gemfiles/rails_4.gemfile
-  - gemfiles/rails_5.gemfile
 before_script:
   - bin/rails g install microservices-engine
-  #- chmod +x scripts/travis.sh
-  #supposed to declare environmental variables in here so I dunno
+  - scripts/travis.sh
 script:
-  # maybe put it in here?
-  - chmod +x scripts/test.sh
   - bundle exec rspec
 notifications:
   email:
@@ -32,19 +25,8 @@ notifications:
 matrix:
   exclude:
     - rvm: 2.3.1
-      gemfile: gemfiles/rails_3.gemfile
-    - rvm: 2.3.1
       env: 'RAILS_VERSION=3'
-    - rvm: 1.9.3
-      gemfile: gemfiles/rails_4.gemfile
-    - rvm: 1.9.3
-      gemfile: gemfiles/rails_5.gemfile
     - rvm: 1.9.3
       env: 'RAILS_VERSION=4'
     - rvm: 1.9.3
       env: 'RAILS_VERSION=5'
-
-# rails versions: 3.2.21, 4.2.6, 5.0.1
-# matrix:
-#   fast_finish: true
-#   exclude: - rvm 2.3.1
