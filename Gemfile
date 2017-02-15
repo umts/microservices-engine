@@ -13,15 +13,14 @@ gemspec
 
 case ENV['RAILS_VERSION']
 when '3'
-  eval_gemfile File.join(File.dirname(__FILE__), 'gemfiles/rails_3.gemfile')
+  eval_gemfile ::File.join(::File.dirname(__FILE__), 'gemfiles/rails_3.gemfile')
 when '4'
-  eval_gemfile File.join(File.dirname(__FILE__), 'gemfiles/rails_4.gemfile')
+  eval_gemfile ::File.join(::File.dirname(__FILE__), 'gemfiles/rails_4.gemfile')
 when '5'
-  eval_gemfile File.join(File.dirname(__FILE__), 'gemfiles/rails_5.gemfile')
+  eval_gemfile ::File.join(::File.dirname(__FILE__), 'gemfiles/rails_5.gemfile')
 end
 
 group :development do
-  gem 'appraisal'
   gem 'bundler'
   gem 'rake'
 end

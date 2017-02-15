@@ -6,7 +6,5 @@ gem "rack", "< 2"
 gem "rails", "4.2.6"
 
 group :development do
-  gem "appraisal"
   gem "bundler"
-  gem "rake"
 end
