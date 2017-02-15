@@ -12,5 +12,6 @@
 # TODO Comment out this rule if environment variables can be committed
 .env
 
+Gemfile.lock
 # these should all be checked in to normalize the environment:
-# Gemfile.lock, .ruby-version, .ruby-gemset
+# .ruby-version, .ruby-gemset
