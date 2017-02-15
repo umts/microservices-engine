@@ -18,9 +18,11 @@ gemfile:
   - gemfiles/rails_5.gemfile
 before_script:
   - bin/rails g install microservices-engine
-  - chmod +x scripts/test.sh
   #- chmod +x scripts/travis.sh
+  #supposed to declare environmental variables in here so I dunno
 script:
+  # maybe put it in here?
+  - chmod +x scripts/test.sh
   - bundle exec rspec
 notifications:
   email:
