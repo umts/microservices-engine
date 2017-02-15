@@ -18,7 +18,7 @@ gemfile:
   - gemfiles/rails_5.gemfile
 before_script:
   - bin/rails g install microservices-engine
-  - chmod +x script/test.sh
+  - chmod +x scripts/test.sh
   - bundle exec rake db:migrate
   - chmod +x scripts/travis.sh
 script:
