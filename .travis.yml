@@ -19,7 +19,7 @@ gemfile:
 before_script:
   - bin/rails g install microservices-engine
   - chmod +x scripts/test.sh
-  - chmod +x scripts/travis.sh
+  #- chmod +x scripts/travis.sh
 script:
   - bundle exec rspec
 notifications:
