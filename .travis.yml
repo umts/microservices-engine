@@ -13,8 +13,8 @@ env:
     - 'RAILS_VERSION=4'
     - 'RAILS_VERSION=5'
 before_script:
-  - scripts/travis.sh
   - bin/rails g install microservices-engine
+  - scripts/travis.sh
 script:
   - bundle exec rspec
 notifications:
