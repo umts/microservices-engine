@@ -24,3 +24,7 @@ group :development do
   gem 'bundler'
   gem 'rake'
 end
+
+group :ruby_2 do
+  gem 'pry-byebug'
+end
