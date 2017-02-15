@@ -8,5 +8,4 @@ gem "rails", "3.2.21"
 group :development do
   gem "webmock", '1.24.6'
   gem "addressable", '< 2.5.0'
-  gem 'pry-byebug', platform: :ruby_20
 end

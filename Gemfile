@@ -27,4 +27,5 @@ end
 
 group :ruby_2 do
   gem 'pry-byebug'
+  gem 'rubocop' '~> 0.45'
 end
