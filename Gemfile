@@ -10,14 +10,6 @@ gemspec
 # your gemspec. These might include edge Rails or gems from your path or
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
-case ENV['RAILS_VERSION']
-when '3'
-  eval_gemfile File.join(File.dirname(__FILE__), 'gemfiles/rails_3.gemfile')
-when '4'
-  eval_gemfile File.join(File.dirname(__FILE__), 'gemfiles/rails_4.gemfile')
-when '5'
-  eval_gemfile File.join(File.dirname(__FILE__), 'gemfiles/rails_5.gemfile')
-end
 
 group :development do
   gem 'appraisal'
