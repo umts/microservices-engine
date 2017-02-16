@@ -13,7 +13,6 @@ when '4'
 when '5'
   APP_RAKEFILE = File.expand_path('../test/dummy/Rakefile', __FILE__)
 end
-# do we need to expand_paths for the other dummy apps?
 load 'rails/tasks/engine.rake'
 load 'rails/tasks/statistics.rake'
 
