@@ -65,7 +65,7 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
     # objects as expected
     describe 'resulting Connection models' do
       before(:each) do
-        @extract = ->(d, key) { d[:content].collect { |c| c[key] } }
+        @extract = ->(d, key) { d['content'].collect { |c| c[key] } }
         @connection = MicroservicesEngine::Connection
       end
 
@@ -85,24 +85,24 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
         end
 
         it 'generated the names' do
-          expect(@connection.all.map(&:name)).to eq(@extract.call(@data, :name))
+          expect(@connection.all.map(&:name)).to eq(@extract.call(@data, 'name'))
         end
 
         it 'generated the urls' do
-          expect(@connection.all.map(&:url)).to eq(@extract.call(@data, :url))
+          expect(@connection.all.map(&:url)).to eq(@extract.call(@data, 'url'))
         end
 
         it 'generated the objects' do
-          expect(@connection.all.map(&:object)).to eq(@extract.call(@data, :object))
+          expect(@connection.all.map(&:object)).to eq(@extract.call(@data, 'object'))
         end
 
         it 'adds model when new data appears' do
           new_data = {
             'name' => 'Endpoint 2',
-            :object => 'Potatoes',
-            :url => 'pota://toe.sareawes.ome'
+            'object' => 'Potatoes',
+            'url' => 'pota://toe.sareawes.ome'
           }
-          @changed_data[:content].append(new_data)
+          @changed_data['content'].append(new_data)
 
           expect { process :register, method: :post, params: @changed_data }
             .to change { @connection.count }
@@ -116,23 +116,23 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
         end
 
         it 'updates the name' do
-          @changed_data[:content][0][:name] = 'Potatoes'
+          @changed_data['content'][0]['name'] = 'Potatoes'
           expect { process :register, method: :post, params: @changed_data }
             .to change { @connection.all.map(&:name) }
-            .from(@extract.call(@data, :name))
-            .to(@extract.call(@changed_data, :name))
+            .from(@extract.call(@data, 'name'))
+            .to(@extract.call(@changed_data, 'name'))
         end
 
         it 'updates the url' do
-          @changed_data[:content][0][:url] = 'pota://toe.s/'
+          @changed_data['content'][0]['url'] = 'pota://toe.s/'
           expect { process :register, method: :post, params: @changed_data }
             .to change { @connection.all.map(&:url) }
-            .from(@extract.call(@data, :url))
-            .to(@extract.call(@changed_data, :url))
+            .from(@extract.call(@data, 'url'))
+            .to(@extract.call(@changed_data, 'url'))
         end
 
         it 'swaps information to other model' do
-          @changed_data[:content][0][:object] = 'SomeOtherObject'
+          @changed_data['content'][0]['object'] = 'SomeOtherObject'
           expect { process :register, method: :post, params: @changed_data }
             .not_to change { @connection.count }
         end
@@ -144,7 +144,7 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
         end
 
         it 'removes the model' do
-          @changed_data[:content].delete_at(0)
+          @changed_data['content'].delete_at(0)
           expect { process :register, method: :post, params: @changed_data }
             .to change { @connection.count }
             .by(-1)

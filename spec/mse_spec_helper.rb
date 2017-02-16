@@ -37,18 +37,18 @@ end
 # Returns a basic set fo a build data for integration testing
 def build_basic_data
   {
-    build:  '1.1.2',
-    token:  'TEST_ENV_VALID_TOKEN',
-    content:  [
+    'build' =>  '1.1.2',
+    'token' =>  'TEST_ENV_VALID_TOKEN',
+    'content' =>  [
       {
-        name:  'Endpoint 1',
-        object:  'FieldTrip',
-        url:  'http://example.com/microservices_engine/v1/data'
+        'name' =>  'Endpoint 1',
+        'object' =>  'FieldTrip',
+        'url' =>  'http://example.com/microservices_engine/v1/data'
       },
       {
-        name:  'Endpoint 2',
-        object:  'Survey',
-        url:  'http://potatoes.com/microservices_engine/v1/data'
+        'name' =>  'Endpoint 2',
+        'object' =>  'Survey',
+        'url' =>  'http://potatoes.com/microservices_engine/v1/data'
       }
     ]
   }
