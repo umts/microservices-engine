@@ -4,6 +4,7 @@ require 'net/http'
 module MicroservicesEngine
   class Connection < ActiveRecord::Base
     validates :url, :object, presence: true
+    attr_accessible :name, :url, :object
 
     def self.get(resource, path, params = {})
       conn = Connection.find_by(object: resource.to_s) # Does :abc match "abc"?
