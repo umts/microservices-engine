@@ -1,7 +1,8 @@
 # frozen_string_literal: true
-require 'simplecov'
-SimpleCov.start 'rails'
-require 'pry-byebug'
+
+unless ENV['RAILS_VERSION'] == '3'
+  require 'pry-byebug'
+end
 require 'yaml'
 
 RSpec.configure do |config|
