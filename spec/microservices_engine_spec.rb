@@ -6,11 +6,11 @@ class MicroservicesEngineTest < ActiveSupport::TestCase
     before(:each) do
       MicroservicesEngine.build = '1.1.1'
       @expected = {
-        'name': '',
-        'uri': '',
-        'security_token': '',
-        'router_uri': '',
-        'accessible_models': ''
+        'name' =>  '',
+        'uri' =>  '',
+        'security_token' =>  '',
+        'router_uri' =>  '',
+        'accessible_models' =>  ''
       }
       allow(MicroservicesEngine).to receive(:config).and_return(@expected)
       allow(MicroservicesEngine).to receive(:reload_config).and_return(@expected)
@@ -78,7 +78,7 @@ class MicroservicesEngineTest < ActiveSupport::TestCase
 
         it 'raises an error with no token config' do
           @expected['security_token'] = ''
-          expect { MicroservicesEngine.valid_token?(':thinking:') }
+          expect { MicroservicesEngine.valid_token?(' => thinking:') }
             .to raise_error(RuntimeError)
         end
 
