@@ -13,10 +13,13 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
     @data = build_basic_data
     @changed_data = @data.deep_dup # A version of data that is changed for tests
   end
+  let :submit do
+    post :register, @data
+  end
 
   describe 'POST #register' do
     it 'responds' do
-      process :register, method: :post, params: @data
+      submit
       expect(response.status).to be(200)
     end
 

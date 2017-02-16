@@ -2,6 +2,8 @@
 
 unless ENV['RAILS_VERSION'] == '3'
   require 'pry-byebug'
+else
+  require 'pry'
 end
 require 'yaml'
 
