@@ -98,9 +98,9 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
 
         it 'adds model when new data appears' do
           new_data = {
-            'name': 'Endpoint 2',
-            'object': 'Potatoes',
-            'url': 'pota://toe.sareawes.ome'
+            'name' => 'Endpoint 2',
+            'object' => 'Potatoes',
+            'url' => 'pota://toe.sareawes.ome'
           }
           @changed_data[:content].append(new_data)
 
