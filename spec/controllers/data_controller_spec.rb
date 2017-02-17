@@ -40,6 +40,8 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
     # The request updates the build version properly
     describe 'updating MicroservicesEngine.build' do
       context 'failing builds' do
+        # Generates a list of semantic versions that will should be invalid changes 
+        # from the base version, then tests all of them.
         failing_semantic_builds.each do |failing_build|
           it "fails with older version #{failing_build}" do
             change_build(failing_build, @changed_data)
@@ -49,6 +51,8 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
       end
 
       context 'passing builds' do
+        # Generates a list of semantic versions that will should be valid changes
+        # from the base version, then tests all of them.
         passing_semantic_builds.each do |passing_build|
           it "passes with newer version #{passing_build}" do
             change_build(passing_build, @changed_data)
