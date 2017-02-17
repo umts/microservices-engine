@@ -39,9 +39,7 @@ module MicroservicesEngine
         not_in_request = existing - in_request
 
         # Remove all objects not included in the request
-        not_in_request.each do |unwanted|
-          Connection.destroy(unwanted.id)
-        end
+        not_in_request.each(&:destroy)
 
         # 'Find and update' or 'Create' all remaining models
         data.each do |endpoint|
