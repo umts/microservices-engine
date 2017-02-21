@@ -8,5 +8,8 @@ class InstallGenerator < ActiveRecord::Generators::Base
     copy_file 'microservices_engine.rb',
               'config/initializers/microservices_engine.rb'
     generate 'migration', 'CreateMicroservicesEngineConnection name:string object:string url:string'
+    open('.gitignore') do |ignore|
+      ignore.puts('config')
+    end
   end
 end
