@@ -26,8 +26,9 @@ gem 'umts-microservices-engine'
 Once you add the gem to your Gemfile, you need to run this command in the directory of your Rails app
 
 ```ruby
-rails generate install microservices-engine
+DISABLE_ROUTER_CHECKIN=true rails generate install microservices-engine
 ```
+Prepending `DISABLE_ROUTER_CHECKIN=true` to your command allows you to execute any `rails` command when there isn't already a reachable instance of `umts/microservices-router` running.
 
 This will generate two files, `config/mse_router_info.yml` and `config/initializers/microservices_engine.rb`.
 
