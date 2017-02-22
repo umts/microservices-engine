@@ -69,6 +69,12 @@ class MicroservicesEngineTest < ActiveSupport::TestCase
         expect(MicroservicesEngine::Connection).to receive(:get).with(@resource, @path, {}, 'expected token')
         MicroservicesEngine.get(@resource, @path, {})
       end
+
+      it 'raises an error with no token config' do
+        @expected['security_token'] = ''
+        expect { MicroservicesEngine.get(@resource, @path, {}) }
+          .to raise_error(RuntimeError)
+      end
     end
 
     describe 'valid_token?' do
