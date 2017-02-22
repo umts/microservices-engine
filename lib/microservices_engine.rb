@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require 'net/http'
 require 'net/https'
+require 'jwt'
 require 'microservices_engine/engine' if defined? Rails
 
 module MicroservicesEngine
@@ -58,7 +59,10 @@ module MicroservicesEngine
 
     # Redirects an engine `get` call to the appropriate resource
     def get(resource, path, params = {})
-      MicroservicesEngine::Connection.get(resource, path, params)
+      if config['security_token'].blank?
+        raise 'Security token is not set'
+      end
+      MicroservicesEngine::Connection.get(resource, path, params, config['security_token'])
     end
   end
 end
