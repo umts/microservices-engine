@@ -10,6 +10,7 @@ gemspec
 # your gemspec. These might include edge Rails or gems from your path or
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
+# I DO NOT KNOW WHAT TO DO
 
 case ENV['RAILS_VERSION']
 when '3'
