@@ -61,12 +61,19 @@ class MicroservicesEngineTest < ActiveSupport::TestCase
       before(:each) do
         @resource = 'ExampleModel'
         @path = %w(apples oranges)
+        @expected['security_token'] = 'expected token'
         # allow(MicroservicesEngine::Connection).to receive(:get).and_return(1)
       end
 
       it 'redirects the request' do
-        expect(MicroservicesEngine::Connection).to receive(:get).with(@resource, @path, {})
+        expect(MicroservicesEngine::Connection).to receive(:get).with(@resource, @path, {}, 'expected token')
         MicroservicesEngine.get(@resource, @path, {})
+      end
+
+      it 'raises an error with no token config' do
+        @expected['security_token'] = ''
+        expect { MicroservicesEngine.get(@resource, @path, {}) }
+          .to raise_error(RuntimeError)
       end
     end
 
