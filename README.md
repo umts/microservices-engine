@@ -1,4 +1,5 @@
-# UMTS MicroservicesEngine
+# UMTS MicroservicesEngine for Rails 3
+## If you are using a rails 3 app, use this branch for your gem version.
 
 [![Build Status](https://travis-ci.org/umts/microservices-engine.svg?branch=master)](https://travis-ci.org/umts/microservices-engine)
 [![Test Coverage](https://codeclimate.com/github/umts/microservices-engine/badges/coverage.svg)](https://codeclimate.com/github/umts/microservices-engine/coverage)
@@ -8,6 +9,8 @@
 ## About
 
 This is a gem / engine designed to provide simplistic inter-service communication between various UMTS (UMass Transportation Services) microservices. Not designed to be used in an independent environment outside of the UMTS office, but you are welcome to try.
+### Rails version supported:
+Rails 3
 
 [See our RubyGems page here](https://rubygems.org/gems/umts-microservices-engine)
 
@@ -26,9 +29,8 @@ gem 'umts-microservices-engine'
 Once you add the gem to your Gemfile, you need to run this command in the directory of your Rails app
 
 ```ruby
-DISABLE_ROUTER_CHECKIN=true rails generate install microservices-engine
+rails generate install microservices-engine
 ```
-> Prepending `DISABLE_ROUTER_CHECKIN=true` to your command allows you to execute any `rails` command when there isn't already a reachable instance of `umts/microservices-router` running.
 
 This will generate two files, `config/mse_router_info.yml` and `config/initializers/microservices_engine.rb`.
 
