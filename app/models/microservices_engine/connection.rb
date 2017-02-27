@@ -6,7 +6,7 @@ module MicroservicesEngine
     validates :url, :object, presence: true
     attr_accessible :name, :url, :object
 
-    def self.get(resource, path, params = {})
+    def self.get(resource, path, params = {}, token)
       conn = Connection.where(object: resource.to_s).first # Does :abc match "abc"?
 
       # resource is :trips, path is [:generate_random_trips]
@@ -14,10 +14,10 @@ module MicroservicesEngine
       # full path = 'trips/generate_random_trips'
 
       raise ArgumentError, "Unknown resource #{resource}" unless conn.present?
-      conn.get full_path, params
+      conn.get full_path, params, token
     end
 
-    def get(full_path, params = {})
+    def get(full_path, params = {}, token)
       # Example use:
       # (connection object for FieldTrip).get([123223, public_trip_stops], {active_only: true})
       # => queries endpoint: uri/123223/public_trip_stops
@@ -28,9 +28,14 @@ module MicroservicesEngine
       uri = URI.parse(url + full_path)
       uri.query = URI.encode_www_form(params)
 
-      res = Net::HTTP.get_response(uri)
-      raise ArgumentError, res.body unless res.is_a? Net::HTTPSuccess
-      res.body
+      request = Net::HTTP::Get.new(uri.path)
+      request.add_field 'Authorization', token
+      response = Net::HTTP.new(uri.host, uri.port).start do |http|
+        http.request request
+      end
+
+      raise ArgumentError, response.body unless response.is_a? Net::HTTPSuccess
+      response.body
     end
   end
 end
