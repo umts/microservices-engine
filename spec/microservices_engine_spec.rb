@@ -1,19 +1,19 @@
 # frozen_string_literal: true
-require 'rails_helper'
-require 'mse_spec_helper'
+require 'spec_helper'
 
 class MicroservicesEngineTest < ActiveSupport::TestCase
   describe MicroservicesEngine do
     before(:each) do
       MicroservicesEngine.build = '1.1.1'
       @expected = {
-        'name': '',
-        'uri': '',
-        'security_token': '',
-        'router_uri': '',
-        'accessible_models': ''
+        'name' =>  '',
+        'uri' =>  '',
+        'security_token' =>  '',
+        'router_uri' =>  '',
+        'accessible_models' =>  ''
       }
-      allow(YAML).to receive(:load_file).and_return(@expected)
+      allow(MicroservicesEngine).to receive(:config).and_return(@expected)
+      allow(MicroservicesEngine).to receive(:reload_config).and_return(@expected)
     end
 
     describe 'build= and build' do
@@ -57,26 +57,6 @@ class MicroservicesEngineTest < ActiveSupport::TestCase
       end
     end
 
-    describe 'get' do
-      before(:each) do
-        @resource = 'ExampleModel'
-        @path = %w(apples oranges)
-        @expected['security_token'] = 'expected token'
-        # allow(MicroservicesEngine::Connection).to receive(:get).and_return(1)
-      end
-
-      it 'redirects the request' do
-        expect(MicroservicesEngine::Connection).to receive(:get).with(@resource, @path, {}, 'expected token')
-        MicroservicesEngine.get(@resource, @path, {})
-      end
-
-      it 'raises an error with no token config' do
-        @expected['security_token'] = ''
-        expect { MicroservicesEngine.get(@resource, @path, {}) }
-          .to raise_error(RuntimeError)
-      end
-    end
-
     describe 'valid_token?' do
       context 'on test environment' do
         it 'accepts valid token' do
@@ -98,7 +78,7 @@ class MicroservicesEngineTest < ActiveSupport::TestCase
 
         it 'raises an error with no token config' do
           @expected['security_token'] = ''
-          expect { MicroservicesEngine.valid_token?(':thinking:') }
+          expect { MicroservicesEngine.valid_token?(' => thinking:') }
             .to raise_error(RuntimeError)
         end
 
