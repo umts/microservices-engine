@@ -31,7 +31,8 @@ module MicroservicesEngine
         data = params['content']
         data_objects = data.map { |d| d['object'] }
 
-        verify_token(params['token'])
+        # Disabled until router implements token authorization
+        # verify_token(params['token'])
         verify_build(params['build'])
 
         existing = Connection.all
@@ -45,17 +46,17 @@ module MicroservicesEngine
 
         # 'Find and update' or 'Create' all remaining models
         data.each do |endpoint|
-          desired = Connection.find_by object: endpoint['object']
+          desired = Connection.where(object: endpoint['object']).first
           if desired.present?
             desired.update_attributes(
-              name: endpoint.require(:name),
-              url: endpoint.require(:url)
+              name: endpoint['name'],
+              url: endpoint['url']
             )
           else
             Connection.create(
-              name: endpoint.require(:name),
-              url: endpoint.require(:url),
-              object: endpoint.require(:object)
+              name: endpoint['name'],
+              url: endpoint['url'],
+              object: endpoint['object']
             )
           end
         end
