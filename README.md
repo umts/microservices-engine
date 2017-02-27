@@ -1,5 +1,8 @@
 # UMTS MicroservicesEngine for Rails 3
 ## If you are using a rails 3 app, use this branch for your gem version.
+### A note for Engine developers:
+remember to delete your Gemfile.lock, rvm use 1.9.3, and then bundle to start development on this branch. The workflow should be: merge from Master, run rspec,
+fix anything that breaks. Do not develop new functionality on this branch, just pull from Master whenever there are any changes to it.
 
 [![Build Status](https://travis-ci.org/umts/microservices-engine.svg?branch=master)](https://travis-ci.org/umts/microservices-engine)
 [![Test Coverage](https://codeclimate.com/github/umts/microservices-engine/badges/coverage.svg)](https://codeclimate.com/github/umts/microservices-engine/coverage)
@@ -12,16 +15,14 @@ This is a gem / engine designed to provide simplistic inter-service communicatio
 ### Rails version supported:
 Rails 3
 
-[See our RubyGems page here](https://rubygems.org/gems/umts-microservices-engine)
-
 ## Setup
 
 ### Require the gem
 
-In your Gemfile, add the following line
+In your Gemfile, add the following line to source from the correct branch:
 
 ```ruby
-gem 'umts-microservices-engine'
+gem 'umts-microservices-engine', require: microservices_engine, git: 'https://github.com/umts/microservices-engine.git', branch: 'rails3-version'
 ```
 
 ### Installing the gem
@@ -31,8 +32,8 @@ Once you add the gem to your Gemfile, you need to run this command in the direct
 ```ruby
 rails generate install microservices-engine
 ```
-
-This will generate two files, `config/mse_router_info.yml` and `config/initializers/microservices_engine.rb`.
+This will generate the files, `config/mse_router_info.yml` and `config/initializers/microservices_engine.rb`. It will also add a migration to your migrations folder
+to generate the necessary table. Don't forget to run migrations after. It will also add a line to your gitignore so config/mse_router_info.yml is not version-controlled.
 
 ### Setting up the configuration
 
