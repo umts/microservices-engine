@@ -11,5 +11,13 @@ gemspec
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
-# To use a debugger
-# gem 'byebug', group: [:development, :test]
+gem "rack", "< 2"
+gem "rails", "3.2.21"
+
+group :development do
+  gem 'bundler'
+  gem 'rake'
+  gem 'pry-debugger'
+  gem "webmock", '1.24.6'
+  gem "addressable", '< 2.5.0'
+end
