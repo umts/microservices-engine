@@ -4,19 +4,20 @@ require 'net/http'
 module MicroservicesEngine
   class Connection < ActiveRecord::Base
     validates :url, :object, presence: true
+    attr_accessible :name, :url, :object
 
-    def self.get(resource, path, params = {}, token)
-      conn = Connection.find_by(object: resource.to_s) # Does :abc match "abc"?
+    def self.get(resource, path, params = {})
+      conn = Connection.where(object: resource.to_s).first # Does :abc match "abc"?
 
       # resource is :trips, path is [:generate_random_trips]
       full_path = path.unshift(resource).join('/')
       # full path = 'trips/generate_random_trips'
 
       raise ArgumentError, "Unknown resource #{resource}" unless conn.present?
-      conn.get full_path, params, token
+      conn.get full_path, params
     end
 
-    def get(full_path, params = {}, token)
+    def get(full_path, params = {})
       # Example use:
       # (connection object for FieldTrip).get([123223, public_trip_stops], {active_only: true})
       # => queries endpoint: uri/123223/public_trip_stops
@@ -27,14 +28,9 @@ module MicroservicesEngine
       uri = URI.parse(url + full_path)
       uri.query = URI.encode_www_form(params)
 
-      request = Net::HTTP::Get.new(uri.path)
-      request.add_field 'Authorization', token
-      response = Net::HTTP.new(uri.host, uri.port).start do |http|
-        http.request request
-      end
-
-      raise ArgumentError, response.body unless response.is_a? Net::HTTPSuccess
-      response.body
+      res = Net::HTTP.get_response(uri)
+      raise ArgumentError, res.body unless res.is_a? Net::HTTPSuccess
+      res.body
     end
   end
 end
