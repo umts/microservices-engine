@@ -40,6 +40,8 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
     # The request updates the build version properly
     describe 'updating MicroservicesEngine.build' do
       context 'failing builds' do
+        # Generates a list of semantic versions that will should be invalid changes
+        # from the base version, then tests all of them.
         failing_semantic_builds.each do |failing_build|
           it "fails with older version #{failing_build}" do
             change_build(failing_build, @changed_data)
@@ -49,6 +51,8 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
       end
 
       context 'passing builds' do
+        # Generates a list of semantic versions that will should be valid changes
+        # from the base version, then tests all of them.
         passing_semantic_builds.each do |passing_build|
           it "passes with newer version #{passing_build}" do
             change_build(passing_build, @changed_data)
@@ -64,7 +68,15 @@ describe MicroservicesEngine::V1::DataController, type: :controller do
     # objects as expected
     describe 'resulting Connection models' do
       before(:each) do
-        @extract = ->(d, key) { d[:content].collect { |c| c[key.to_sym] } }
+        # @extract is a simple lambda function whose goal is to extract
+        #   a specific key from endpoint data clusters in a data's content
+        #   key. See mse_spec_helper.rb for an example of the data structure
+        @extract = lambda do |data, key|
+          # It has very specific functionality, so it is not worth extracting
+          #   to a helper file
+          data[:content].collect{ |endpoint| endpoint[key.to_sym]  }
+        end
+
         @connection = MicroservicesEngine::Connection
       end
 
